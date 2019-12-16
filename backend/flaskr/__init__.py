@@ -2,6 +2,8 @@
 
 from flask import Flask
 
+from flask_cors import CORS
+
 from models import setup_db
 
 QUESTIONS_PER_PAGE = 10
@@ -17,9 +19,7 @@ def create_app(test_config=None):
     app = Flask(__name__)
     setup_db(app)
 
-    '''
-    @TODO: Set up CORS. Allow '*' for origins. Delete the sample route after completing the TODOs
-    '''
+    CORS(app, resources={r"*": {"origins": "*"}})
 
     '''
     @TODO: Use the after_request decorator to set Access-Control-Allow
