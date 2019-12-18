@@ -8,7 +8,8 @@ from models import setup_db
 
 from flaskr.constants import (
     ERROR_MESSAGES,
-    STATUS_BAD_REQUEST, STATUS_UNAUTHORIZED, STATUS_FORBIDDEN, STATUS_NOT_FOUND, STATUS_METHOD_NOT_ALLOWED
+    STATUS_BAD_REQUEST, STATUS_UNAUTHORIZED, STATUS_FORBIDDEN, STATUS_NOT_FOUND,
+    STATUS_METHOD_NOT_ALLOWED, STATUS_UNPROCESSABLE_ENTITY
 )
 
 QUESTIONS_PER_PAGE = 10
@@ -178,5 +179,19 @@ def create_app(test_config=None):
             'error': STATUS_METHOD_NOT_ALLOWED,
             'message': ERROR_MESSAGES[STATUS_METHOD_NOT_ALLOWED]
         }), STATUS_METHOD_NOT_ALLOWED
+
+    @app.errorhandler(STATUS_UNPROCESSABLE_ENTITY)
+    def unprocessable_entity(error):
+        """
+        Error handler for unprocessable entity with status code 422.
+
+        :param error:
+        :return:
+        """
+        return jsonify({
+            'success': False,
+            'error': STATUS_UNPROCESSABLE_ENTITY,
+            'message': ERROR_MESSAGES[STATUS_UNPROCESSABLE_ENTITY]
+        }), STATUS_UNPROCESSABLE_ENTITY
 
     return app
