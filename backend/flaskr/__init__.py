@@ -1,16 +1,16 @@
 """Module for app."""
 
-from flask import Flask, jsonify, abort
+from flask import Flask, abort, jsonify
 
 from flask_cors import CORS
 
-from models import setup_db, Category
-
 from flaskr.constants import (
     ERROR_MESSAGES,
-    STATUS_BAD_REQUEST, STATUS_UNAUTHORIZED, STATUS_FORBIDDEN, STATUS_NOT_FOUND,
-    STATUS_METHOD_NOT_ALLOWED, STATUS_UNPROCESSABLE_ENTITY
+    STATUS_BAD_REQUEST, STATUS_FORBIDDEN, STATUS_METHOD_NOT_ALLOWED,
+    STATUS_NOT_FOUND, STATUS_UNAUTHORIZED, STATUS_UNPROCESSABLE_ENTITY
 )
+
+from models import Category, setup_db
 
 QUESTIONS_PER_PAGE = 10
 
