@@ -1,3 +1,5 @@
+"""Constants module for flaskr app."""
+
 STATUS_BAD_REQUEST = 400
 STATUS_UNAUTHORIZED = 401
 STATUS_FORBIDDEN = 403
