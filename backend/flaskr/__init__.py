@@ -42,6 +42,11 @@ def create_app(test_config=None):
 
     @app.route("/categories")
     def get_categories():
+        """
+        Return the list of categories with id and type.
+
+        :return:
+        """
         try:
             categories = Category.query.all()
             serialized_data = [category.format() for category in categories]
@@ -50,6 +55,7 @@ def create_app(test_config=None):
                 "categories": serialized_data
             }
             return jsonify(result)
+
         except Exception:
             abort(STATUS_UNPROCESSABLE_ENTITY)
 
