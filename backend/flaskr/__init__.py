@@ -1,6 +1,6 @@
 """Module for app."""
 
-from flask import Flask, jsonify
+from flask import Flask, jsonify, abort
 
 from flask_cors import CORS
 
@@ -42,13 +42,16 @@ def create_app(test_config=None):
 
     @app.route("/categories")
     def get_categories():
-        categories = Category.query.all()
-        serialized_data = [category.format() for category in categories]
-        result = {
-            "success": True,
-            "categories": serialized_data
-        }
-        return jsonify(result)
+        try:
+            categories = Category.query.all()
+            serialized_data = [category.format() for category in categories]
+            result = {
+                "success": True,
+                "categories": serialized_data
+            }
+            return jsonify(result)
+        except Exception:
+            abort(STATUS_UNPROCESSABLE_ENTITY)
 
     '''
     @TODO:
