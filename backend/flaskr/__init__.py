@@ -6,7 +6,7 @@ from flask_cors import CORS
 
 from models import setup_db
 
-from flaskr.constants import ERROR_MESSAGES, STATUS_BAD_REQUEST, STATUS_UNAUTHORIZED
+from flaskr.constants import ERROR_MESSAGES, STATUS_BAD_REQUEST, STATUS_UNAUTHORIZED, STATUS_FORBIDDEN
 
 QUESTIONS_PER_PAGE = 10
 
@@ -133,5 +133,19 @@ def create_app(test_config=None):
             'error': STATUS_UNAUTHORIZED,
             'message': ERROR_MESSAGES[STATUS_UNAUTHORIZED]
         }), STATUS_UNAUTHORIZED
+
+    @app.errorhandler(STATUS_FORBIDDEN)
+    def forbidden(error):
+        """
+        Error handler for forbidden with status code 403.
+
+        :param error:
+        :return:
+        """
+        return jsonify({
+            'success': False,
+            'error': STATUS_FORBIDDEN,
+            'message': ERROR_MESSAGES[STATUS_FORBIDDEN]
+        }), STATUS_FORBIDDEN
 
     return app
