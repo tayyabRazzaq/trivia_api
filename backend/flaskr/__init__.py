@@ -6,7 +6,7 @@ from flask_cors import CORS
 
 from models import setup_db
 
-from flaskr.constants import ERROR_MESSAGES, STATUS_BAD_REQUEST
+from flaskr.constants import ERROR_MESSAGES, STATUS_BAD_REQUEST, STATUS_UNAUTHORIZED
 
 QUESTIONS_PER_PAGE = 10
 
@@ -119,5 +119,19 @@ def create_app(test_config=None):
             'error': STATUS_BAD_REQUEST,
             'message': ERROR_MESSAGES[STATUS_BAD_REQUEST]
         }), STATUS_BAD_REQUEST
+
+    @app.errorhandler(STATUS_UNAUTHORIZED)
+    def unauthorized(error):
+        """
+        Error handler for unauthorized with status code 401.
+
+        :param error:
+        :return:
+        """
+        return jsonify({
+            'success': False,
+            'error': STATUS_UNAUTHORIZED,
+            'message': ERROR_MESSAGES[STATUS_UNAUTHORIZED]
+        }), STATUS_UNAUTHORIZED
 
     return app
