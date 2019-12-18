@@ -1,10 +1,12 @@
 """Module for app."""
 
-from flask import Flask
+from flask import Flask, jsonify
 
 from flask_cors import CORS
 
 from models import setup_db
+
+from flaskr.constants import ERROR_MESSAGES, STATUS_BAD_REQUEST
 
 QUESTIONS_PER_PAGE = 10
 
@@ -103,5 +105,19 @@ def create_app(test_config=None):
     Create error handlers for all expected errors
     including 404 and 422.
     '''
+
+    @app.errorhandler(STATUS_BAD_REQUEST)
+    def bad_request(error):
+        """
+        Error handler for bad request with status code 400.
+
+        :param error:
+        :return:
+        """
+        return jsonify({
+            'success': False,
+            'error': STATUS_BAD_REQUEST,
+            'message': ERROR_MESSAGES[STATUS_BAD_REQUEST]
+        }), STATUS_BAD_REQUEST
 
     return app
