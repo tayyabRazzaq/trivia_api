@@ -6,7 +6,7 @@ from flask_cors import CORS
 
 from models import setup_db
 
-from flaskr.constants import ERROR_MESSAGES, STATUS_BAD_REQUEST, STATUS_UNAUTHORIZED, STATUS_FORBIDDEN
+from flaskr.constants import ERROR_MESSAGES, STATUS_BAD_REQUEST, STATUS_UNAUTHORIZED, STATUS_FORBIDDEN, STATUS_NOT_FOUND
 
 QUESTIONS_PER_PAGE = 10
 
@@ -147,5 +147,19 @@ def create_app(test_config=None):
             'error': STATUS_FORBIDDEN,
             'message': ERROR_MESSAGES[STATUS_FORBIDDEN]
         }), STATUS_FORBIDDEN
+
+    @app.errorhandler(STATUS_NOT_FOUND)
+    def not_found(error):
+        """
+        Error handler for not found with status code 404.
+
+        :param error:
+        :return:
+        """
+        return jsonify({
+            'success': False,
+            'error': STATUS_NOT_FOUND,
+            'message': ERROR_MESSAGES[STATUS_NOT_FOUND]
+        }), STATUS_NOT_FOUND
 
     return app
