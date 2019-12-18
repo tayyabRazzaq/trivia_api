@@ -4,7 +4,7 @@ from flask import Flask, jsonify
 
 from flask_cors import CORS
 
-from models import setup_db
+from models import setup_db, Category
 
 from flaskr.constants import (
     ERROR_MESSAGES,
@@ -39,6 +39,16 @@ def create_app(test_config=None):
     Create an endpoint to handle GET requests
     for all available categories.
     '''
+
+    @app.route("/categories")
+    def get_categories():
+        categories = Category.query.all()
+        serialized_data = [category.format() for category in categories]
+        result = {
+            "success": True,
+            "categories": serialized_data
+        }
+        return jsonify(result)
 
     '''
     @TODO:
