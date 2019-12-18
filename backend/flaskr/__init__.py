@@ -6,7 +6,10 @@ from flask_cors import CORS
 
 from models import setup_db
 
-from flaskr.constants import ERROR_MESSAGES, STATUS_BAD_REQUEST, STATUS_UNAUTHORIZED, STATUS_FORBIDDEN, STATUS_NOT_FOUND
+from flaskr.constants import (
+    ERROR_MESSAGES,
+    STATUS_BAD_REQUEST, STATUS_UNAUTHORIZED, STATUS_FORBIDDEN, STATUS_NOT_FOUND, STATUS_METHOD_NOT_ALLOWED
+)
 
 QUESTIONS_PER_PAGE = 10
 
@@ -161,5 +164,19 @@ def create_app(test_config=None):
             'error': STATUS_NOT_FOUND,
             'message': ERROR_MESSAGES[STATUS_NOT_FOUND]
         }), STATUS_NOT_FOUND
+
+    @app.errorhandler(STATUS_METHOD_NOT_ALLOWED)
+    def method_not_allowed(error):
+        """
+        Error handler for method not allowed with status code 405.
+
+        :param error:
+        :return:
+        """
+        return jsonify({
+            'success': False,
+            'error': STATUS_METHOD_NOT_ALLOWED,
+            'message': ERROR_MESSAGES[STATUS_METHOD_NOT_ALLOWED]
+        }), STATUS_METHOD_NOT_ALLOWED
 
     return app
