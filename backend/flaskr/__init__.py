@@ -86,6 +86,12 @@ def create_app(test_config=None):
 
     @app.route('/questions/<int:question_id>', methods=['DELETE'])
     def delete_question(question_id):
+        """
+        Delete question by given question id.
+        
+        :param question_id:
+        :return:
+        """
         question = get_question_by_id(question_id)
         if not question:
             abort(STATUS_NOT_FOUND)
