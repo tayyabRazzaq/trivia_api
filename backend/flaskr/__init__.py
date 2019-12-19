@@ -35,7 +35,7 @@ def create_app(test_config=None):
         response.headers.add('Access-Control-Allow-Methods', 'GET, POST, PUT, PATCH, DELETE, OPTIONS')
         return response
 
-    @app.route("/categories")
+    @app.route('/categories')
     def get_categories():
         """
         Return the categories with id and type.
@@ -109,8 +109,13 @@ def create_app(test_config=None):
     of the questions list in the "List" tab.
     '''
 
-    @app.route("/questions", methods=['POST'])
+    @app.route('/questions', methods=['POST'])
     def add_question():
+        """
+        Add question to database.
+
+        :return:
+        """
         question = request.get_json()
         add_new_question(question)
         return jsonify({

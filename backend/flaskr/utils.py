@@ -65,6 +65,12 @@ def get_question_by_id(question_id):
 
 
 def add_new_question(question):
+    """
+    Add new question to db.
+
+    :param question:
+    :return:
+    """
     instance = Question(**question)
     instance.insert()
     return instance
