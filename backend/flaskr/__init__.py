@@ -107,6 +107,10 @@ def create_app(test_config=None):
         """
         try:
             question = request.get_json()
+
+            if not question:
+                abort(STATUS_BAD_REQUEST)
+
             add_new_question(question)
             return jsonify({
                 'success': True,
