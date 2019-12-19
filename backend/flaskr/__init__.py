@@ -105,11 +105,15 @@ def create_app(test_config=None):
 
         :return:
         """
-        question = request.get_json()
-        add_new_question(question)
-        return jsonify({
-            'success': True,
-        }), STATUS_CREATED
+        try:
+            question = request.get_json()
+            add_new_question(question)
+            return jsonify({
+                'success': True,
+            }), STATUS_CREATED
+
+        except Exception:
+            abort(STATUS_UNPROCESSABLE_ENTITY)
 
     '''
     @TODO:
