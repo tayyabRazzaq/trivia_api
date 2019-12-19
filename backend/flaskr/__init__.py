@@ -1,6 +1,6 @@
 """Module for app."""
 
-from flask import Flask, abort, jsonify
+from flask import Flask, abort, jsonify, request
 
 from flask_cors import CORS
 
@@ -10,7 +10,9 @@ from flaskr.constants import (
     STATUS_NOT_FOUND, STATUS_UNAUTHORIZED, STATUS_UNPROCESSABLE_ENTITY
 )
 
-from models import Category, setup_db
+from flaskr.utils import get_all_categories, get_all_questions, get_questions_by_page
+
+from models import setup_db
 
 QUESTIONS_PER_PAGE = 10
 
@@ -42,14 +44,9 @@ def create_app(test_config=None):
         :return:
         """
         try:
-            categories = Category.query.all()
-            serialized_data = {}
-            for category in categories:
-                serialized_data[category.id] = category.type
-
             result = {
                 "success": True,
-                "categories": serialized_data
+                "categories": get_all_categories()
             }
             return jsonify(result)
 
@@ -68,6 +65,22 @@ def create_app(test_config=None):
     ten questions per page and pagination at the bottom of the screen for three pages.
     Clicking on the page numbers should update the questions.
     '''
+
+    @app.route('/questions')
+    def get_questions():
+        page = request.args.get('page', 1, type=int)
+        questions = get_questions_by_page(page)
+
+        if len(questions) == 0:
+            abort(STATUS_NOT_FOUND)
+
+        return jsonify({
+            'success': True,
+            'current_category': None,
+            'categories': get_all_categories(),
+            'questions': questions,
+            'total_questions': len(get_all_questions())
+        })
 
     '''
     @TODO:
