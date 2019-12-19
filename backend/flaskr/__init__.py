@@ -1,16 +1,16 @@
 """Module for app."""
 
-from flask import Flask, jsonify
+from flask import Flask, abort, jsonify
 
 from flask_cors import CORS
 
-from models import setup_db
-
 from flaskr.constants import (
     ERROR_MESSAGES,
-    STATUS_BAD_REQUEST, STATUS_UNAUTHORIZED, STATUS_FORBIDDEN, STATUS_NOT_FOUND,
-    STATUS_METHOD_NOT_ALLOWED, STATUS_UNPROCESSABLE_ENTITY
+    STATUS_BAD_REQUEST, STATUS_FORBIDDEN, STATUS_METHOD_NOT_ALLOWED,
+    STATUS_NOT_FOUND, STATUS_UNAUTHORIZED, STATUS_UNPROCESSABLE_ENTITY
 )
+
+from models import Category, setup_db
 
 QUESTIONS_PER_PAGE = 10
 
@@ -34,11 +34,27 @@ def create_app(test_config=None):
         response.headers.add('Access-Control-Allow-Methods', 'GET, POST, PUT, PATCH, DELETE, OPTIONS')
         return response
 
-    '''
-    @TODO:
-    Create an endpoint to handle GET requests
-    for all available categories.
-    '''
+    @app.route("/categories")
+    def get_categories():
+        """
+        Return the categories with id and type.
+
+        :return:
+        """
+        try:
+            categories = Category.query.all()
+            serialized_data = {}
+            for category in categories:
+                serialized_data[category.id] = category.type
+
+            result = {
+                "success": True,
+                "categories": serialized_data
+            }
+            return jsonify(result)
+
+        except Exception:
+            abort(STATUS_UNPROCESSABLE_ENTITY)
 
     '''
     @TODO:
