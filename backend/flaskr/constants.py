@@ -15,3 +15,5 @@ ERROR_MESSAGES = {
     STATUS_METHOD_NOT_ALLOWED: 'Method Not Allowed',
     STATUS_UNPROCESSABLE_ENTITY: 'Unprocessable Entity',
 }
+
+QUESTIONS_PER_PAGE = 10

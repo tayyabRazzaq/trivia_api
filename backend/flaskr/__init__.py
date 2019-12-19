@@ -1,6 +1,6 @@
 """Module for app."""
 
-from flask import Flask, abort, jsonify
+from flask import Flask, abort, jsonify, request
 
 from flask_cors import CORS
 
@@ -9,8 +9,9 @@ from flaskr.constants import (
     STATUS_BAD_REQUEST, STATUS_FORBIDDEN, STATUS_METHOD_NOT_ALLOWED,
     STATUS_NOT_FOUND, STATUS_UNAUTHORIZED, STATUS_UNPROCESSABLE_ENTITY
 )
+from flaskr.utils import get_all_categories, get_all_questions, get_questions_by_page
 
-from models import Category, setup_db
+from models import setup_db
 
 QUESTIONS_PER_PAGE = 10
 
@@ -42,32 +43,38 @@ def create_app(test_config=None):
         :return:
         """
         try:
-            categories = Category.query.all()
-            serialized_data = {}
-            for category in categories:
-                serialized_data[category.id] = category.type
-
             result = {
                 "success": True,
-                "categories": serialized_data
+                "categories": get_all_categories()
             }
             return jsonify(result)
 
         except Exception:
             abort(STATUS_UNPROCESSABLE_ENTITY)
 
-    '''
-    @TODO:
-    Create an endpoint to handle GET requests for questions,
-    including pagination (every 10 questions).
-    This endpoint should return a list of questions,
-    number of total questions, current category, categories.
+    @app.route('/questions')
+    def get_questions():
+        """
+        Get questions by given page number.
 
-    TEST: At this point, when you start the application
-    you should see questions and categories generated,
-    ten questions per page and pagination at the bottom of the screen for three pages.
-    Clicking on the page numbers should update the questions.
-    '''
+        :return:
+        """
+        try:
+            page = request.args.get('page', 1, type=int)
+            questions = get_questions_by_page(page)
+
+            if len(questions) == 0:
+                abort(STATUS_NOT_FOUND)
+
+            return jsonify({
+                'success': True,
+                'current_category': None,
+                'categories': get_all_categories(),
+                'questions': questions,
+                'total_questions': len(get_all_questions())
+            })
+        except Exception:
+            abort(STATUS_UNPROCESSABLE_ENTITY)
 
     '''
     @TODO:
