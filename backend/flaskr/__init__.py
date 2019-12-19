@@ -6,10 +6,10 @@ from flask_cors import CORS
 
 from flaskr.constants import (
     ERROR_MESSAGES,
-    STATUS_NO_CONTENT, STATUS_BAD_REQUEST, STATUS_FORBIDDEN, STATUS_METHOD_NOT_ALLOWED,
-    STATUS_NOT_FOUND, STATUS_UNAUTHORIZED, STATUS_UNPROCESSABLE_ENTITY
+    STATUS_BAD_REQUEST, STATUS_FORBIDDEN, STATUS_METHOD_NOT_ALLOWED, STATUS_NOT_FOUND,
+    STATUS_NO_CONTENT, STATUS_UNAUTHORIZED, STATUS_UNPROCESSABLE_ENTITY
 )
-from flaskr.utils import get_all_categories, get_all_questions, get_questions_by_page, get_question_by_id
+from flaskr.utils import get_all_categories, get_all_questions, get_question_by_id, get_questions_by_page
 
 from models import setup_db
 
