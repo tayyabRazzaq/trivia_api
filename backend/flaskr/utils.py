@@ -18,6 +18,19 @@ def get_page_range(page):
     return start, end
 
 
+def get_all_categories():
+    """
+    Get all categories.
+
+    :return:
+    """
+    categories = {}
+    for category in Category.query.all():
+        categories[category.id] = category.type
+
+    return categories
+
+
 def get_all_questions():
     """
     Return list of all questions.
@@ -51,14 +64,13 @@ def get_question_by_id(question_id):
     return Question.query.get(question_id)
 
 
-def get_all_categories():
+def add_new_question(question):
     """
-    Get all categories.
+    Add new question to db.
 
+    :param question:
     :return:
     """
-    categories = {}
-    for category in Category.query.all():
-        categories[category.id] = category.type
-
-    return categories
+    instance = Question(**question)
+    instance.insert()
+    return instance
