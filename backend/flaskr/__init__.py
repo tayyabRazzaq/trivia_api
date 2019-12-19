@@ -98,17 +98,6 @@ def create_app(test_config=None):
         except Exception:
             abort(STATUS_UNPROCESSABLE_ENTITY)
 
-    '''
-    @TODO:
-    Create an endpoint to POST a new question,
-    which will require the question and answer text,
-    category, and difficulty score.
-
-    TEST: When you submit a question on the "Add" tab,
-    the form will clear and the question will appear at the end of the last page
-    of the questions list in the "List" tab.
-    '''
-
     @app.route('/questions', methods=['POST'])
     def add_question():
         """
