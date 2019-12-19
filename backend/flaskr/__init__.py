@@ -49,7 +49,10 @@ def create_app(test_config=None):
         """
         try:
             categories = Category.query.all()
-            serialized_data = [category.format() for category in categories]
+            serialized_data = {}
+            for category in categories:
+                serialized_data[category.id] = category.type
+
             result = {
                 "success": True,
                 "categories": serialized_data
