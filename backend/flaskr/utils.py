@@ -41,6 +41,16 @@ def get_questions_by_page(page):
     return questions[start:end]
 
 
+def get_question_by_id(question_id):
+    """
+    Return question by given question id.
+
+    :param question_id:
+    :return:
+    """
+    return Question.query.get(question_id)
+
+
 def get_all_categories():
     """
     Get all categories.
