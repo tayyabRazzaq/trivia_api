@@ -6,14 +6,15 @@ from flask_cors import CORS
 
 from flaskr.constants import (
     ERROR_MESSAGES,
-    STATUS_BAD_REQUEST, STATUS_FORBIDDEN, STATUS_METHOD_NOT_ALLOWED, STATUS_NOT_FOUND,
-    STATUS_NO_CONTENT, STATUS_UNAUTHORIZED, STATUS_UNPROCESSABLE_ENTITY
+    STATUS_BAD_REQUEST, STATUS_CREATED, STATUS_FORBIDDEN, STATUS_METHOD_NOT_ALLOWED,
+    STATUS_NOT_FOUND, STATUS_NO_CONTENT, STATUS_UNAUTHORIZED, STATUS_UNPROCESSABLE_ENTITY
 )
-from flaskr.utils import get_all_categories, get_all_questions, get_question_by_id, get_questions_by_page
+from flaskr.utils import (
+    add_new_question, get_all_categories, get_all_questions,
+    get_question_by_id, get_questions_by_page
+)
 
 from models import setup_db
-
-QUESTIONS_PER_PAGE = 10
 
 
 def create_app(test_config=None):
@@ -28,7 +29,6 @@ def create_app(test_config=None):
 
     CORS(app, resources={r"*": {"origins": "*"}})
 
-    # after_request decorator to set Access-Control-Allow
     @app.after_request
     def after_request(response):
         response.headers.add('Access-Control-Allow-Headers', 'Content-Type, Authorization')
@@ -108,6 +108,14 @@ def create_app(test_config=None):
     the form will clear and the question will appear at the end of the last page
     of the questions list in the "List" tab.
     '''
+
+    @app.route("/questions", methods=['POST'])
+    def add_question():
+        question = request.get_json()
+        add_new_question(question)
+        return jsonify({
+            'success': True,
+        }), STATUS_CREATED
 
     '''
     @TODO:
