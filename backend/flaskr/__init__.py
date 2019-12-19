@@ -68,6 +68,11 @@ def create_app(test_config=None):
 
     @app.route('/questions')
     def get_questions():
+        """
+        Get questions by given page number.
+        
+        :return:
+        """
         try:
             page = request.args.get('page', 1, type=int)
             questions = get_questions_by_page(page)
