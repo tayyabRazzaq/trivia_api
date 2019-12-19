@@ -6,10 +6,10 @@ from flask_cors import CORS
 
 from flaskr.constants import (
     ERROR_MESSAGES,
-    STATUS_BAD_REQUEST, STATUS_FORBIDDEN, STATUS_METHOD_NOT_ALLOWED,
+    STATUS_NO_CONTENT, STATUS_BAD_REQUEST, STATUS_FORBIDDEN, STATUS_METHOD_NOT_ALLOWED,
     STATUS_NOT_FOUND, STATUS_UNAUTHORIZED, STATUS_UNPROCESSABLE_ENTITY
 )
-from flaskr.utils import get_all_categories, get_all_questions, get_questions_by_page
+from flaskr.utils import get_all_categories, get_all_questions, get_questions_by_page, get_question_by_id
 
 from models import setup_db
 
@@ -83,6 +83,17 @@ def create_app(test_config=None):
     TEST: When you click the trash icon next to a question, the question will be removed.
     This removal will persist in the database and when you refresh the page.
     '''
+
+    @app.route('/questions/<int:question_id>', methods=['DELETE'])
+    def delete_question(question_id):
+        question = get_question_by_id(question_id)
+        if not question:
+            abort(STATUS_NOT_FOUND)
+
+        question.delete()
+        return jsonify({
+            'success': True
+        }), STATUS_NO_CONTENT
 
     '''
     @TODO:
