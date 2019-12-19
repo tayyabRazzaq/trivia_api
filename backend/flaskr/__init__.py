@@ -73,6 +73,7 @@ def create_app(test_config=None):
                 'questions': questions,
                 'total_questions': len(get_all_questions())
             })
+
         except Exception:
             abort(STATUS_UNPROCESSABLE_ENTITY)
 
@@ -88,18 +89,22 @@ def create_app(test_config=None):
     def delete_question(question_id):
         """
         Delete question by given question id.
-        
+
         :param question_id:
         :return:
         """
-        question = get_question_by_id(question_id)
-        if not question:
-            abort(STATUS_NOT_FOUND)
+        try:
+            question = get_question_by_id(question_id)
+            if not question:
+                abort(STATUS_NOT_FOUND)
 
-        question.delete()
-        return jsonify({
-            'success': True
-        }), STATUS_NO_CONTENT
+            question.delete()
+            return jsonify({
+                'success': True
+            }), STATUS_NO_CONTENT
+
+        except Exception:
+            abort(STATUS_UNPROCESSABLE_ENTITY)
 
     '''
     @TODO:
