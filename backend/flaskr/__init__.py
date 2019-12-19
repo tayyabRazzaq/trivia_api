@@ -68,19 +68,22 @@ def create_app(test_config=None):
 
     @app.route('/questions')
     def get_questions():
-        page = request.args.get('page', 1, type=int)
-        questions = get_questions_by_page(page)
+        try:
+            page = request.args.get('page', 1, type=int)
+            questions = get_questions_by_page(page)
 
-        if len(questions) == 0:
-            abort(STATUS_NOT_FOUND)
+            if len(questions) == 0:
+                abort(STATUS_NOT_FOUND)
 
-        return jsonify({
-            'success': True,
-            'current_category': None,
-            'categories': get_all_categories(),
-            'questions': questions,
-            'total_questions': len(get_all_questions())
-        })
+            return jsonify({
+                'success': True,
+                'current_category': None,
+                'categories': get_all_categories(),
+                'questions': questions,
+                'total_questions': len(get_all_questions())
+            })
+        except Exception:
+            abort(STATUS_UNPROCESSABLE_ENTITY)
 
     '''
     @TODO:
