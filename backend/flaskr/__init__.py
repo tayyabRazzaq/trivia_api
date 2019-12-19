@@ -9,7 +9,6 @@ from flaskr.constants import (
     STATUS_BAD_REQUEST, STATUS_FORBIDDEN, STATUS_METHOD_NOT_ALLOWED,
     STATUS_NOT_FOUND, STATUS_UNAUTHORIZED, STATUS_UNPROCESSABLE_ENTITY
 )
-
 from flaskr.utils import get_all_categories, get_all_questions, get_questions_by_page
 
 from models import setup_db
