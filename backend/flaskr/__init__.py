@@ -34,16 +34,10 @@ def create_app(test_config=None):
         response.headers.add('Access-Control-Allow-Methods', 'GET, POST, PUT, PATCH, DELETE, OPTIONS')
         return response
 
-    '''
-    @TODO:
-    Create an endpoint to handle GET requests
-    for all available categories.
-    '''
-
     @app.route("/categories")
     def get_categories():
         """
-        Return the list of categories with id and type.
+        Return the categories with id and type.
 
         :return:
         """
