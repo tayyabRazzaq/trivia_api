@@ -5,7 +5,10 @@ import unittest
 from flask_sqlalchemy import SQLAlchemy
 
 from flaskr import create_app
-from flaskr.constants import STATUS_OK, STATUS_NO_CONTENT, STATUS_METHOD_NOT_ALLOWED, STATUS_NOT_FOUND, ERROR_MESSAGES
+from flaskr.constants import (
+    ERROR_MESSAGES, STATUS_BAD_REQUEST, STATUS_CREATED, STATUS_FORBIDDEN, STATUS_METHOD_NOT_ALLOWED,
+    STATUS_NOT_FOUND, STATUS_NO_CONTENT, STATUS_OK, STATUS_UNAUTHORIZED, STATUS_UNPROCESSABLE_ENTITY
+)
 
 from models import get_database_path, setup_db
 
@@ -20,7 +23,7 @@ class TriviaTestCase(unittest.TestCase):
         :return:
         """
         self.app = create_app()
-        self.client = self.app.test_client
+        self.client = self.app.test_client()
         self.database_name = "trivia_test"
         self.database_path = get_database_path(self.database_name)
         setup_db(self.app, self.database_path)
@@ -38,7 +41,7 @@ class TriviaTestCase(unittest.TestCase):
 
         :return:
         """
-        response = self.client().get('/categories')
+        response = self.client.get('/categories')
         json_data = response.get_json()
         self.assertEqual(response.status_code, STATUS_OK)
         self.assertEqual(json_data.get('success'), True)
@@ -49,7 +52,7 @@ class TriviaTestCase(unittest.TestCase):
 
         :return:
         """
-        response = self.client().post('/categories')
+        response = self.client.post('/categories')
         json_data = response.get_json()
         self.assertEqual(response.status_code, STATUS_METHOD_NOT_ALLOWED)
         self.assertEqual(json_data.get('success'), False)
@@ -61,7 +64,7 @@ class TriviaTestCase(unittest.TestCase):
 
         :return:
         """
-        response = self.client().get('/questions')
+        response = self.client.get('/questions')
         json_data = response.get_json()
         self.assertEqual(response.status_code, STATUS_OK)
         self.assertEqual(json_data.get('success'), True)
@@ -72,7 +75,7 @@ class TriviaTestCase(unittest.TestCase):
 
         :return:
         """
-        response = self.client().get('/questions?page=-1000')
+        response = self.client.get('/questions?page=-1000')
         json_data = response.get_json()
         self.assertEqual(response.status_code, STATUS_NOT_FOUND)
         self.assertEqual(json_data.get('success'), False)
@@ -84,7 +87,7 @@ class TriviaTestCase(unittest.TestCase):
 
         :return:
         """
-        response = self.client().delete('/questions/13')
+        response = self.client.delete('/questions/15')
         self.assertEqual(response.status_code, STATUS_NO_CONTENT)
 
     def test_delete_question_failed_method_not_allowed(self):
@@ -93,7 +96,7 @@ class TriviaTestCase(unittest.TestCase):
 
         :return:
         """
-        response = self.client().get('/questions/10')
+        response = self.client.get('/questions/10')
         json_data = response.get_json()
         self.assertEqual(response.status_code, STATUS_METHOD_NOT_ALLOWED)
         self.assertEqual(json_data.get('success'), False)
@@ -105,11 +108,28 @@ class TriviaTestCase(unittest.TestCase):
 
         :return:
         """
-        response = self.client().delete('/questions/-1000')
+        response = self.client.delete('/questions/-1000')
         json_data = response.get_json()
         self.assertEqual(response.status_code, STATUS_NOT_FOUND)
         self.assertEqual(json_data.get('success'), False)
         self.assertEqual(json_data.get('message'), ERROR_MESSAGES[STATUS_NOT_FOUND])
+
+    def test_add_question_success(self):
+        """
+        Success case of add question test case.
+
+        :return:
+        """
+        question = {
+            "question": "Test 1",
+            "answer": "Answer 1",
+            "category": 1,
+            "difficulty": 1
+        }
+        response = self.client.post('/questions', json=question)
+        json_data = response.get_json()
+        self.assertEqual(response.status_code, STATUS_CREATED)
+        self.assertEqual(json_data.get('success'), True)
 
     def tearDown(self):
         """
