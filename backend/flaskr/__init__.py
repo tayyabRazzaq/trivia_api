@@ -51,8 +51,8 @@ def create_app(test_config=None):
             }
             return jsonify(result)
 
-        except Exception:
-            abort(STATUS_UNPROCESSABLE_ENTITY)
+        except Exception as exp:
+            abort(exp.code)
 
     @app.route('/questions')
     def get_questions():
@@ -61,23 +61,23 @@ def create_app(test_config=None):
 
         :return:
         """
-        questions = []
         try:
             page = request.args.get('page', 1, type=int)
             questions = get_questions_by_page(page)
-        except Exception:
-            abort(STATUS_UNPROCESSABLE_ENTITY)
 
-        if len(questions) == 0:
-            abort(STATUS_NOT_FOUND)
+            if len(questions) == 0:
+                abort(STATUS_NOT_FOUND)
 
-        return jsonify({
-            'success': True,
-            'current_category': None,
-            'categories': get_all_categories(),
-            'questions': questions,
-            'total_questions': len(get_all_questions())
-        })
+            return jsonify({
+                'success': True,
+                'current_category': None,
+                'categories': get_all_categories(),
+                'questions': questions,
+                'total_questions': len(get_all_questions())
+            })
+
+        except Exception as exp:
+            abort(exp.code)
 
     @app.route('/questions/<int:question_id>', methods=['DELETE'])
     def delete_question(question_id):
@@ -97,8 +97,8 @@ def create_app(test_config=None):
                 'success': True
             }), STATUS_NO_CONTENT
 
-        except Exception:
-            abort(STATUS_UNPROCESSABLE_ENTITY)
+        except Exception as exp:
+            abort(exp.code)
 
     @app.route('/questions', methods=['POST'])
     def add_question():
@@ -118,8 +118,8 @@ def create_app(test_config=None):
                 'success': True,
             }), STATUS_CREATED
 
-        except Exception:
-            abort(STATUS_UNPROCESSABLE_ENTITY)
+        except Exception as exp:
+            abort(exp.code)
 
     @app.route('/questions/filter', methods=['POST'])
     def search_questions():
@@ -137,8 +137,8 @@ def create_app(test_config=None):
                 'total_questions': len(questions),
             })
 
-        except Exception:
-            abort(STATUS_UNPROCESSABLE_ENTITY)
+        except Exception as exp:
+            abort(exp.code)
 
     @app.route('/categories/<int:category_id>/questions')
     def get_questions_by_category(category_id):
@@ -158,8 +158,8 @@ def create_app(test_config=None):
                 "current_category": category.format(),
             })
 
-        except Exception:
-            abort(STATUS_UNPROCESSABLE_ENTITY)
+        except Exception as exp:
+            abort(exp.code)
 
     @app.route('/quizzes', methods=['POST'])
     def play_quiz():
@@ -188,8 +188,8 @@ def create_app(test_config=None):
                 'success': True
             })
 
-        except Exception:
-            abort(STATUS_UNPROCESSABLE_ENTITY)
+        except Exception as exp:
+            abort(exp.code)
 
     @app.errorhandler(STATUS_BAD_REQUEST)
     def bad_request(error):
