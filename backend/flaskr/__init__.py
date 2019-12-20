@@ -7,8 +7,8 @@ from flask import Flask, abort, jsonify, request
 from flask_cors import CORS
 
 from flaskr.constants import (
-    ERROR_MESSAGES, STATUS_BAD_REQUEST, STATUS_CREATED, STATUS_FORBIDDEN, STATUS_METHOD_NOT_ALLOWED,
-    STATUS_NOT_FOUND, STATUS_NO_CONTENT, STATUS_UNAUTHORIZED, STATUS_UNPROCESSABLE_ENTITY
+    ERROR_MESSAGES, STATUS_BAD_REQUEST, STATUS_CREATED, STATUS_FORBIDDEN, STATUS_INTERNAL_SERVER_ERROR,
+    STATUS_METHOD_NOT_ALLOWED, STATUS_NOT_FOUND, STATUS_NO_CONTENT, STATUS_UNAUTHORIZED, STATUS_UNPROCESSABLE_ENTITY
 )
 from flaskr.utils import (
     add_new_question, get_all_categories, get_all_questions,
@@ -195,11 +195,10 @@ def create_app(test_config=None):
             abort(exp.code)
 
     @app.errorhandler(STATUS_BAD_REQUEST)
-    def bad_request(error):
+    def bad_request():
         """
         Error handler for bad request with status code 400.
 
-        :param error:
         :return:
         """
         return jsonify({
@@ -209,11 +208,10 @@ def create_app(test_config=None):
         }), STATUS_BAD_REQUEST
 
     @app.errorhandler(STATUS_UNAUTHORIZED)
-    def unauthorized(error):
+    def unauthorized():
         """
         Error handler for unauthorized with status code 401.
 
-        :param error:
         :return:
         """
         return jsonify({
@@ -223,11 +221,10 @@ def create_app(test_config=None):
         }), STATUS_UNAUTHORIZED
 
     @app.errorhandler(STATUS_FORBIDDEN)
-    def forbidden(error):
+    def forbidden():
         """
         Error handler for forbidden with status code 403.
 
-        :param error:
         :return:
         """
         return jsonify({
@@ -237,11 +234,10 @@ def create_app(test_config=None):
         }), STATUS_FORBIDDEN
 
     @app.errorhandler(STATUS_NOT_FOUND)
-    def not_found(error):
+    def not_found():
         """
         Error handler for not found with status code 404.
 
-        :param error:
         :return:
         """
         return jsonify({
@@ -251,11 +247,10 @@ def create_app(test_config=None):
         }), STATUS_NOT_FOUND
 
     @app.errorhandler(STATUS_METHOD_NOT_ALLOWED)
-    def method_not_allowed(error):
+    def method_not_allowed():
         """
         Error handler for method not allowed with status code 405.
 
-        :param error:
         :return:
         """
         return jsonify({
@@ -265,11 +260,10 @@ def create_app(test_config=None):
         }), STATUS_METHOD_NOT_ALLOWED
 
     @app.errorhandler(STATUS_UNPROCESSABLE_ENTITY)
-    def unprocessable_entity(error):
+    def unprocessable_entity():
         """
         Error handler for unprocessable entity with status code 422.
 
-        :param error:
         :return:
         """
         return jsonify({
@@ -277,5 +271,18 @@ def create_app(test_config=None):
             'error': STATUS_UNPROCESSABLE_ENTITY,
             'message': ERROR_MESSAGES[STATUS_UNPROCESSABLE_ENTITY]
         }), STATUS_UNPROCESSABLE_ENTITY
+
+    @app.errorhandler(STATUS_INTERNAL_SERVER_ERROR)
+    def internal_server_error():
+        """
+        Error handler for internal server error with status code 500.
+
+        :return:
+        """
+        return jsonify({
+            'success': False,
+            'error': STATUS_INTERNAL_SERVER_ERROR,
+            'message': ERROR_MESSAGES[STATUS_INTERNAL_SERVER_ERROR]
+        }), STATUS_INTERNAL_SERVER_ERROR
 
     return app

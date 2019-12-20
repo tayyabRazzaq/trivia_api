@@ -146,6 +146,7 @@ class TriviaTestCase(unittest.TestCase):
     def test_add_question_failed_bad_request(self):
         """
         Fail case of add question test case with bad request error.
+
         :return:
         """
         response = self.client.post('/questions', json={})
