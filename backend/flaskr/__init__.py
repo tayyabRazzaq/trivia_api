@@ -195,10 +195,11 @@ def create_app(test_config=None):
             abort(exp.code)
 
     @app.errorhandler(STATUS_BAD_REQUEST)
-    def bad_request():
+    def bad_request(error):
         """
         Error handler for bad request with status code 400.
 
+        :param: error
         :return:
         """
         return jsonify({
@@ -208,10 +209,11 @@ def create_app(test_config=None):
         }), STATUS_BAD_REQUEST
 
     @app.errorhandler(STATUS_UNAUTHORIZED)
-    def unauthorized():
+    def unauthorized(error):
         """
         Error handler for unauthorized with status code 401.
 
+        :param: error
         :return:
         """
         return jsonify({
@@ -221,10 +223,11 @@ def create_app(test_config=None):
         }), STATUS_UNAUTHORIZED
 
     @app.errorhandler(STATUS_FORBIDDEN)
-    def forbidden():
+    def forbidden(error):
         """
         Error handler for forbidden with status code 403.
 
+        :param: error
         :return:
         """
         return jsonify({
@@ -234,10 +237,11 @@ def create_app(test_config=None):
         }), STATUS_FORBIDDEN
 
     @app.errorhandler(STATUS_NOT_FOUND)
-    def not_found():
+    def not_found(error):
         """
         Error handler for not found with status code 404.
 
+        :param: error
         :return:
         """
         return jsonify({
@@ -247,10 +251,11 @@ def create_app(test_config=None):
         }), STATUS_NOT_FOUND
 
     @app.errorhandler(STATUS_METHOD_NOT_ALLOWED)
-    def method_not_allowed():
+    def method_not_allowed(error):
         """
         Error handler for method not allowed with status code 405.
 
+        :param: error
         :return:
         """
         return jsonify({
@@ -260,10 +265,11 @@ def create_app(test_config=None):
         }), STATUS_METHOD_NOT_ALLOWED
 
     @app.errorhandler(STATUS_UNPROCESSABLE_ENTITY)
-    def unprocessable_entity():
+    def unprocessable_entity(error):
         """
         Error handler for unprocessable entity with status code 422.
 
+        :param: error
         :return:
         """
         return jsonify({
@@ -273,10 +279,11 @@ def create_app(test_config=None):
         }), STATUS_UNPROCESSABLE_ENTITY
 
     @app.errorhandler(STATUS_INTERNAL_SERVER_ERROR)
-    def internal_server_error():
+    def internal_server_error(error):
         """
         Error handler for internal server error with status code 500.
 
+        :param: error
         :return:
         """
         return jsonify({

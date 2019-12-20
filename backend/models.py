@@ -16,9 +16,7 @@ def get_database_path(db_name=database_name):
     :param db_name:
     :return:
     """
-    return "postgresql://{user}:{password}@{server}/{database}".format(
-        user="postgres", password="postgres", server="localhost:5432", database=db_name
-    )
+    return "postgres://{}/{}".format('localhost:5432', db_name)
 
 
 def setup_db(app, database_uri=get_database_path()):
