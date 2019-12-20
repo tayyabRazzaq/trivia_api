@@ -175,19 +175,23 @@ def create_app(test_config=None):
 
     @app.route('/quizzes', methods=['POST'])
     def play_quiz():
-        request_data = request.get_json()
-        previous_questions = request_data.get('previous_questions', [])
-        quiz_category = request_data.get('quiz_category')
-        category_id = quiz_category.get('id')
-        questions = get_all_questions() if category_id == 0 else get_all_questions(category_id=category_id)
+        try:
+            request_data = request.get_json()
+            previous_questions = request_data.get('previous_questions', [])
+            quiz_category = request_data.get('quiz_category')
+            category_id = quiz_category.get('id')
+            questions = get_all_questions() if category_id == 0 else get_all_questions(category_id=category_id)
 
-        filtered_questions = list(filter(lambda question: question.get('id') not in previous_questions, questions))
-        random_question = random.choice(filtered_questions)
+            filtered_questions = list(filter(lambda question: question.get('id') not in previous_questions, questions))
+            random_question = random.choice(filtered_questions)
 
-        return jsonify({
-            'question': random_question,
-            'success': True
-        })
+            return jsonify({
+                'question': random_question,
+                'success': True
+            })
+
+        except Exception:
+            abort(STATUS_UNPROCESSABLE_ENTITY)
 
     @app.errorhandler(STATUS_BAD_REQUEST)
     def bad_request(error):
