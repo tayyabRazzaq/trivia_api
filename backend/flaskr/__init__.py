@@ -7,8 +7,7 @@ from flask import Flask, abort, jsonify, request
 from flask_cors import CORS
 
 from flaskr.constants import (
-    ERROR_MESSAGES,
-    STATUS_BAD_REQUEST, STATUS_CREATED, STATUS_FORBIDDEN, STATUS_METHOD_NOT_ALLOWED,
+    ERROR_MESSAGES, STATUS_BAD_REQUEST, STATUS_CREATED, STATUS_FORBIDDEN, STATUS_METHOD_NOT_ALLOWED,
     STATUS_NOT_FOUND, STATUS_NO_CONTENT, STATUS_UNAUTHORIZED, STATUS_UNPROCESSABLE_ENTITY
 )
 from flaskr.utils import (
@@ -150,6 +149,10 @@ def create_app(test_config=None):
         """
         try:
             category = get_category_by_id(category_id)
+
+            if category is None:
+                abort(STATUS_NOT_FOUND)
+
             questions = get_all_questions(category_id=category_id)
             return jsonify({
                 "success": True,
