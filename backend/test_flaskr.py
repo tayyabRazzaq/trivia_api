@@ -180,6 +180,17 @@ class TriviaTestCase(unittest.TestCase):
         self.assertEqual(json_data.get('success'), False)
         self.assertEqual(json_data.get('message'), ERROR_MESSAGES[STATUS_METHOD_NOT_ALLOWED])
 
+    def test_get_questions_by_category_success(self):
+        """
+        Success case for get questions by category.
+
+        :return:
+        """
+        response = self.client.get('/categories/1/questions')
+        json_data = response.get_json()
+        self.assertEqual(response.status_code, STATUS_OK)
+        self.assertEqual(json_data.get('success'), True)
+
     def tearDown(self):
         """
         Execute after reach test.
