@@ -38,6 +38,12 @@ class TriviaTestCase(unittest.TestCase):
         self.assertEqual(response.status_code, STATUS_OK)
         self.assertEqual(json_data.get('success'), True)
 
+    def test_get_categories_failed(self):
+        response = self.client().post('/categories')
+        json_data = response.get_json()
+        self.assertEqual(response.status_code, STATUS_METHOD_NOT_ALLOWED)
+        self.assertEqual(json_data.get('success'), False)
+
     def tearDown(self):
         """
         Execute after reach test.
