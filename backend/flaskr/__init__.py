@@ -11,7 +11,7 @@ from flaskr.constants import (
 )
 from flaskr.utils import (
     add_new_question, get_all_categories, get_all_questions,
-    get_question_by_id, get_questions_by_page
+    get_category_by_id, get_question_by_id, get_questions_by_page
 )
 
 from models import setup_db
@@ -128,7 +128,7 @@ def create_app(test_config=None):
         """
         try:
             request_data = request.get_json()
-            questions = get_all_questions(request_data.get('searchTerm'))
+            questions = get_all_questions(query=request_data.get('searchTerm'))
             return jsonify({
                 'success': True,
                 'questions': questions,
@@ -138,14 +138,26 @@ def create_app(test_config=None):
         except Exception:
             abort(STATUS_UNPROCESSABLE_ENTITY)
 
-    '''
-    @TODO:
-    Create a GET endpoint to get questions based on category.
+    @app.route('/categories/<int:category_id>/questions')
+    def get_questions_by_category(category_id):
+        """
+        Get questions by category.
 
-    TEST: In the "List" tab / main screen, clicking on one of the
-    categories in the left column will cause only questions of that
-    category to be shown.
-    '''
+        :param category_id:
+        :return:
+        """
+        try:
+            category = get_category_by_id(category_id)
+            questions = get_all_questions(category_id=category_id)
+            return jsonify({
+                "success": True,
+                "questions": questions,
+                "total_questions": len(questions),
+                "current_category": category.format(),
+            })
+
+        except Exception:
+            abort(STATUS_UNPROCESSABLE_ENTITY)
 
     '''
     @TODO:
@@ -153,7 +165,7 @@ def create_app(test_config=None):
     This endpoint should take category and previous question parameters
     and return a random questions within the given category,
     if provided, and that is not one of the previous questions.
-
+    
     TEST: In the "Play" tab, after a user selects "All" or a category,
     one question at a time is displayed, the user is allowed to answer
     and shown whether they were correct or not.
