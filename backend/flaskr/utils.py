@@ -31,13 +31,18 @@ def get_all_categories():
     return categories
 
 
-def get_all_questions():
+def get_all_questions(query=None):
     """
     Return list of all questions.
 
+    :param query:
     :return:
     """
-    questions = Question.query.order_by(Question.id).all()
+    if query:
+        questions = Question.query.filter(Question.question.ilike(f'%{query}%'))
+    else:
+        questions = Question.query.order_by(Question.id).all()
+
     serialized_data = [question.format() for question in questions]
     return serialized_data
 
