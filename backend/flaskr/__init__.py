@@ -177,14 +177,18 @@ def create_app(test_config=None):
     def play_quiz():
         """
         Play quiz route to get questions for quizzes.
-        
+
         :return:
         """
         try:
             request_data = request.get_json()
             previous_questions = request_data.get('previous_questions', [])
             quiz_category = request_data.get('quiz_category')
-            category_id = quiz_category.get('id')
+
+            if not quiz_category:
+                abort(STATUS_BAD_REQUEST)
+            
+            category_id = quiz_category.get('id', 0)
             questions = get_all_questions() if category_id == 0 else get_all_questions(category_id=category_id)
 
             filtered_questions = list(filter(lambda question: question.get('id') not in previous_questions, questions))
