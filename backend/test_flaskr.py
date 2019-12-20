@@ -5,7 +5,7 @@ import unittest
 from flask_sqlalchemy import SQLAlchemy
 
 from flaskr import create_app
-from flaskr.constants import STATUS_OK, STATUS_METHOD_NOT_ALLOWED, STATUS_NOT_FOUND
+from flaskr.constants import STATUS_OK, STATUS_METHOD_NOT_ALLOWED, STATUS_NOT_FOUND, ERROR_MESSAGES
 
 from models import get_database_path, setup_db
 
@@ -53,6 +53,7 @@ class TriviaTestCase(unittest.TestCase):
         json_data = response.get_json()
         self.assertEqual(response.status_code, STATUS_METHOD_NOT_ALLOWED)
         self.assertEqual(json_data.get('success'), False)
+        self.assertEqual(json_data.get('message'), ERROR_MESSAGES[STATUS_METHOD_NOT_ALLOWED])
 
     def test_get_questions_success(self):
         """
@@ -71,10 +72,11 @@ class TriviaTestCase(unittest.TestCase):
 
         :return:
         """
-        response = self.client().get('/questions?page=100')
+        response = self.client().get('/questions?page=-1000')
         json_data = response.get_json()
         self.assertEqual(response.status_code, STATUS_NOT_FOUND)
         self.assertEqual(json_data.get('success'), False)
+        self.assertEqual(json_data.get('message'), ERROR_MESSAGES[STATUS_NOT_FOUND])
 
     def tearDown(self):
         """
