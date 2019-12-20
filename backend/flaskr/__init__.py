@@ -1,5 +1,7 @@
 """Module for app."""
 
+import random
+
 from flask import Flask, abort, jsonify, request
 
 from flask_cors import CORS
@@ -170,6 +172,22 @@ def create_app(test_config=None):
     one question at a time is displayed, the user is allowed to answer
     and shown whether they were correct or not.
     '''
+
+    @app.route('/quizzes', methods=['POST'])
+    def play_quiz():
+        request_data = request.get_json()
+        previous_questions = request_data.get('previous_questions', [])
+        quiz_category = request_data.get('quiz_category')
+        category_id = quiz_category.get('id')
+        questions = get_all_questions() if category_id == 0 else get_all_questions(category_id=category_id)
+
+        filtered_questions = list(filter(lambda question: question.get('id') not in previous_questions, questions))
+        random_question = random.choice(filtered_questions)
+
+        return jsonify({
+            'question': random_question,
+            'success': True
+        })
 
     @app.errorhandler(STATUS_BAD_REQUEST)
     def bad_request(error):
