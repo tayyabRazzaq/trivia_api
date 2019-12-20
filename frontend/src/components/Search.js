@@ -1,33 +1,22 @@
-import React, { Component } from 'react'
+import React, { useState } from 'react'
 
-class Search extends Component {
-  state = {
-    query: '',
-  }
+export default () => {
 
-  getInfo = (event) => {
-    event.preventDefault();
-    this.props.submitSearch(this.state.query)
-  }
+    const [query, setQuery] = useState('');
 
-  handleInputChange = () => {
-    this.setState({
-      query: this.search.value
-    })
-  }
+    const getInfo = event => {
+        event.preventDefault();
+        this.props.submitSearch(this.state.query)
+    };
 
-  render() {
     return (
-      <form onSubmit={this.getInfo}>
-        <input
-          placeholder="Search questions..."
-          ref={input => this.search = input}
-          onChange={this.handleInputChange}
-        />
-        <input type="submit" value="Submit" className="button"/>
-      </form>
+        <form onSubmit={getInfo}>
+            <input
+                placeholder="Search questions..."
+                value={query}
+                onChange={e => setQuery(e.target.value)}
+            />
+            <input type="submit" value="Submit" className="button"/>
+        </form>
     )
-  }
-}
-
-export default Search
+};
