@@ -175,6 +175,11 @@ def create_app(test_config=None):
 
     @app.route('/quizzes', methods=['POST'])
     def play_quiz():
+        """
+        Play quiz route to get questions for quizzes.
+        
+        :return:
+        """
         try:
             request_data = request.get_json()
             previous_questions = request_data.get('previous_questions', [])
