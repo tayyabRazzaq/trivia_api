@@ -138,20 +138,11 @@ def create_app(test_config=None):
         except Exception:
             abort(STATUS_UNPROCESSABLE_ENTITY)
 
-    '''
-    @TODO:
-    Create a GET endpoint to get questions based on category.
-
-    TEST: In the "List" tab / main screen, clicking on one of the
-    categories in the left column will cause only questions of that
-    category to be shown.
-    '''
-
     @app.route('/categories/<int:category_id>/questions')
     def get_questions_by_category(category_id):
         """
         Get questions by category.
-        
+
         :param category_id:
         :return:
         """
