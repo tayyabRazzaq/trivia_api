@@ -149,6 +149,10 @@ def create_app(test_config=None):
         """
         try:
             category = get_category_by_id(category_id)
+
+            if category is None:
+                abort(STATUS_NOT_FOUND)
+
             questions = get_all_questions(category_id=category_id)
             return jsonify({
                 "success": True,
