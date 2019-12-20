@@ -55,12 +55,22 @@ class TriviaTestCase(unittest.TestCase):
         self.assertEqual(json_data.get('success'), False)
 
     def test_get_questions_success(self):
+        """
+        Success case for get questions.
+
+        :return:
+        """
         response = self.client().get('/questions')
         json_data = response.get_json()
         self.assertEqual(response.status_code, STATUS_OK)
         self.assertEqual(json_data.get('success'), True)
-        
+
     def test_get_questions_failed(self):
+        """
+        Fail case for get questions.
+
+        :return:
+        """
         response = self.client().get('/questions?page=100')
         json_data = response.get_json()
         self.assertEqual(response.status_code, STATUS_NOT_FOUND)
