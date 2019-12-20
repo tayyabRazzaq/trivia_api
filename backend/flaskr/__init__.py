@@ -187,12 +187,13 @@ def create_app(test_config=None):
 
             if not quiz_category:
                 abort(STATUS_BAD_REQUEST)
-            
+
             category_id = quiz_category.get('id', 0)
             questions = get_all_questions() if category_id == 0 else get_all_questions(category_id=category_id)
 
             filtered_questions = list(filter(lambda question: question.get('id') not in previous_questions, questions))
-            random_question = random.choice(filtered_questions)
+
+            random_question = random.choice(filtered_questions) if filtered_questions else None
 
             return jsonify({
                 'question': random_question,
