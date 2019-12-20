@@ -33,12 +33,22 @@ class TriviaTestCase(unittest.TestCase):
             self.db.create_all()
 
     def test_get_categories_success(self):
+        """
+        Success test case for get categories route.
+
+        :return:
+        """
         response = self.client().get('/categories')
         json_data = response.get_json()
         self.assertEqual(response.status_code, STATUS_OK)
         self.assertEqual(json_data.get('success'), True)
 
     def test_get_categories_failed(self):
+        """
+        Fail test case for get categories route.
+
+        :return:
+        """
         response = self.client().post('/categories')
         json_data = response.get_json()
         self.assertEqual(response.status_code, STATUS_METHOD_NOT_ALLOWED)
