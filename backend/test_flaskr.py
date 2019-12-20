@@ -5,6 +5,7 @@ import unittest
 from flask_sqlalchemy import SQLAlchemy
 
 from flaskr import create_app
+from flaskr.constants import STATUS_OK, STATUS_METHOD_NOT_ALLOWED
 
 from models import get_database_path, setup_db
 
@@ -30,6 +31,12 @@ class TriviaTestCase(unittest.TestCase):
             self.db.init_app(self.app)
             # create all tables
             self.db.create_all()
+
+    def test_get_categories_success(self):
+        response = self.client().get('/categories')
+        json_data = response.get_json()
+        self.assertEqual(response.status_code, STATUS_OK)
+        self.assertEqual(json_data.get('success'), True)
 
     def tearDown(self):
         """
