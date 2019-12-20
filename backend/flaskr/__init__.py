@@ -119,16 +119,24 @@ def create_app(test_config=None):
         except Exception:
             abort(STATUS_UNPROCESSABLE_ENTITY)
 
-    '''
-    @TODO:
-    Create a POST endpoint to get questions based on a search term.
-    It should return any questions for whom the search term
-    is a substring of the question.
+    @app.route('/questions/filter', methods=['POST'])
+    def search_questions():
+        """
+        Return the list of questions filtered by given search.
 
-    TEST: Search by any phrase. The questions list will update to include
-    only question that include that string within their question.
-    Try using the word "title" to start.
-    '''
+        :return:
+        """
+        try:
+            request_data = request.get_json()
+            questions = get_all_questions(request_data.get('searchTerm'))
+            return jsonify({
+                'success': True,
+                'questions': questions,
+                'total_questions': len(questions),
+            })
+
+        except Exception:
+            abort(STATUS_UNPROCESSABLE_ENTITY)
 
     '''
     @TODO:
