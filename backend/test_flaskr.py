@@ -5,7 +5,7 @@ import unittest
 from flask_sqlalchemy import SQLAlchemy
 
 from flaskr import create_app
-from flaskr.constants import STATUS_OK, STATUS_METHOD_NOT_ALLOWED, STATUS_NOT_FOUND, ERROR_MESSAGES
+from flaskr.constants import STATUS_OK, STATUS_NO_CONTENT, STATUS_METHOD_NOT_ALLOWED, STATUS_NOT_FOUND, ERROR_MESSAGES
 
 from models import get_database_path, setup_db
 
@@ -77,6 +77,15 @@ class TriviaTestCase(unittest.TestCase):
         self.assertEqual(response.status_code, STATUS_NOT_FOUND)
         self.assertEqual(json_data.get('success'), False)
         self.assertEqual(json_data.get('message'), ERROR_MESSAGES[STATUS_NOT_FOUND])
+
+    def test_delete_question_success(self):
+        """
+        Success case of delete question test case.
+
+        :return:
+        """
+        response = self.client().delete('/questions/13')
+        self.assertEqual(response.status_code, STATUS_NO_CONTENT)
 
     def tearDown(self):
         """
