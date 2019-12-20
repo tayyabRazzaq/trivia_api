@@ -168,6 +168,18 @@ class TriviaTestCase(unittest.TestCase):
         self.assertEqual(response.status_code, STATUS_OK)
         self.assertEqual(json_data.get('success'), True)
 
+    def test_search_questions_failed(self):
+        """
+        Success case of search questions api with method not allowed error.
+
+        :return:
+        """
+        response = self.client.get('/questions/filter', json={})
+        json_data = response.get_json()
+        self.assertEqual(response.status_code, STATUS_METHOD_NOT_ALLOWED)
+        self.assertEqual(json_data.get('success'), False)
+        self.assertEqual(json_data.get('message'), ERROR_MESSAGES[STATUS_METHOD_NOT_ALLOWED])
+
     def tearDown(self):
         """
         Execute after reach test.
