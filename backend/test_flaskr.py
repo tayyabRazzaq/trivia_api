@@ -143,6 +143,17 @@ class TriviaTestCase(unittest.TestCase):
         self.assertEqual(json_data.get('success'), False)
         self.assertEqual(json_data.get('message'), ERROR_MESSAGES[STATUS_METHOD_NOT_ALLOWED])
 
+    def test_add_question_failed_bad_request(self):
+        """
+        Fail case of add question test case with bad request error.
+        :return:
+        """
+        response = self.client.post('/questions', json={})
+        json_data = response.get_json()
+        self.assertEqual(response.status_code, STATUS_BAD_REQUEST)
+        self.assertEqual(json_data.get('success'), False)
+        self.assertEqual(json_data.get('message'), ERROR_MESSAGES[STATUS_BAD_REQUEST])
+
     def tearDown(self):
         """
         Execute after reach test.
