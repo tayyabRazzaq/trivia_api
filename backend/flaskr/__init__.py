@@ -7,8 +7,8 @@ from flask import Flask, abort, jsonify, request
 from flask_cors import CORS
 
 from flaskr.constants import (
-    ERROR_MESSAGES, STATUS_BAD_REQUEST, STATUS_CREATED, STATUS_FORBIDDEN, STATUS_METHOD_NOT_ALLOWED,
-    STATUS_NOT_FOUND, STATUS_NO_CONTENT, STATUS_UNAUTHORIZED, STATUS_UNPROCESSABLE_ENTITY, STATUS_INTERNAL_SERVER_ERROR
+    ERROR_MESSAGES, STATUS_BAD_REQUEST, STATUS_CREATED, STATUS_FORBIDDEN, STATUS_INTERNAL_SERVER_ERROR,
+    STATUS_METHOD_NOT_ALLOWED, STATUS_NOT_FOUND, STATUS_NO_CONTENT, STATUS_UNAUTHORIZED, STATUS_UNPROCESSABLE_ENTITY
 )
 from flaskr.utils import (
     add_new_question, get_all_categories, get_all_questions,
@@ -273,7 +273,7 @@ def create_app(test_config=None):
         }), STATUS_UNPROCESSABLE_ENTITY
 
     @app.errorhandler(STATUS_INTERNAL_SERVER_ERROR)
-    def unprocessable_entity():
+    def internal_server_error():
         """
         Error handler for internal server error with status code 500.
 
