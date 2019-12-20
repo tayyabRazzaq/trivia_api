@@ -87,6 +87,18 @@ class TriviaTestCase(unittest.TestCase):
         response = self.client().delete('/questions/13')
         self.assertEqual(response.status_code, STATUS_NO_CONTENT)
 
+    def test_delete_question_failed_method_not_allowed(self):
+        """
+        Method not allowed failed case of delete question test case.
+
+        :return:
+        """
+        response = self.client().get('/questions/10')
+        json_data = response.get_json()
+        self.assertEqual(response.status_code, STATUS_METHOD_NOT_ALLOWED)
+        self.assertEqual(json_data.get('success'), False)
+        self.assertEqual(json_data.get('message'), ERROR_MESSAGES[STATUS_METHOD_NOT_ALLOWED])
+
     def tearDown(self):
         """
         Execute after reach test.
