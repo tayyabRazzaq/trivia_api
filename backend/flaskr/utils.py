@@ -31,15 +31,28 @@ def get_all_categories():
     return categories
 
 
-def get_all_questions(query=None):
+def get_category_by_id(category_id):
+    """
+    Return category by given category_id id.
+
+    :param category_id:
+    :return:
+    """
+    return Category.query.get(category_id)
+
+
+def get_all_questions(query=None, category_id=None):
     """
     Return list of all questions.
 
     :param query:
+    :param category_id:
     :return:
     """
     if query:
         questions = Question.query.filter(Question.question.ilike(f'%{query}%'))
+    elif category_id:
+        questions = Question.query.filter_by(category=category_id)
     else:
         questions = Question.query.order_by(Question.id).all()
 
