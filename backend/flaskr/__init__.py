@@ -132,6 +132,11 @@ def create_app(test_config=None):
 
     @app.route('/questions/filter', methods=['POST'])
     def search_questions():
+        """
+        Return the list of questions filtered by given search.
+
+        :return:
+        """
         try:
             request_data = request.get_json()
             questions = get_all_questions(request_data.get('searchTerm'))
@@ -140,6 +145,7 @@ def create_app(test_config=None):
                 'questions': questions,
                 'total_questions': len(questions),
             })
+
         except Exception:
             abort(STATUS_UNPROCESSABLE_ENTITY)
 
