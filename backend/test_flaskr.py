@@ -59,6 +59,12 @@ class TriviaTestCase(unittest.TestCase):
         json_data = response.get_json()
         self.assertEqual(response.status_code, STATUS_OK)
         self.assertEqual(json_data.get('success'), True)
+        
+    def test_get_questions_failed(self):
+        response = self.client().get('/questions?page=100')
+        json_data = response.get_json()
+        self.assertEqual(response.status_code, STATUS_NOT_FOUND)
+        self.assertEqual(json_data.get('success'), False)
 
     def tearDown(self):
         """
