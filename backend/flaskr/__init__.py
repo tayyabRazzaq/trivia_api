@@ -149,14 +149,18 @@ def create_app(test_config=None):
 
     @app.route('/categories/<int:category_id>/questions')
     def get_question_by_category(category_id):
-        category = get_category_by_id(category_id)
-        questions = get_all_questions(category_id=category_id)
-        return jsonify({
-            "success": True,
-            "questions": questions,
-            "total_questions": len(questions),
-            "current_category": category.format(),
-        })
+        try:
+            category = get_category_by_id(category_id)
+            questions = get_all_questions(category_id=category_id)
+            return jsonify({
+                "success": True,
+                "questions": questions,
+                "total_questions": len(questions),
+                "current_category": category.format(),
+            })
+
+        except Exception:
+            abort(STATUS_UNPROCESSABLE_ENTITY)
 
     '''
     @TODO:
