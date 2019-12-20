@@ -1,12 +1,12 @@
 import React, { useState } from 'react'
 
-export default () => {
+export default ({ submitSearch }) => {
 
     const [query, setQuery] = useState('');
 
     const getInfo = event => {
         event.preventDefault();
-        this.props.submitSearch(this.state.query)
+        submitSearch(query)
     };
 
     return (

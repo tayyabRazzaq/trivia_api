@@ -15,8 +15,8 @@ export default () => {
 
     return (
         <div className="App-header">
-            <h1 onClick={() => {navTo('')}}>Udacitrivia</h1>
-            {Object.key(routes).map(key => <h2 key={key} onClick={() => {navTo(routes[key])}}>{key}</h2>)}
+            <h1 onClick={() => navTo('')}>Udacitrivia</h1>
+            {Object.keys(routes).map(key => <h2 key={key} onClick={() => navTo(routes[key])}>{key}</h2>)}
         </div>
     );
 };
