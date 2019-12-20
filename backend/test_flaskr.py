@@ -154,6 +154,20 @@ class TriviaTestCase(unittest.TestCase):
         self.assertEqual(json_data.get('success'), False)
         self.assertEqual(json_data.get('message'), ERROR_MESSAGES[STATUS_BAD_REQUEST])
 
+    def test_search_questions_success(self):
+        """
+        Success case of search questions api.
+
+        :return:
+        """
+        data = {
+            "searchTerm": "The"
+        }
+        response = self.client.post('/questions/filter', json=data)
+        json_data = response.get_json()
+        self.assertEqual(response.status_code, STATUS_OK)
+        self.assertEqual(json_data.get('success'), True)
+
     def tearDown(self):
         """
         Execute after reach test.
