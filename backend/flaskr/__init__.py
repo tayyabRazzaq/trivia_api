@@ -61,23 +61,23 @@ def create_app(test_config=None):
 
         :return:
         """
+        questions = []
         try:
             page = request.args.get('page', 1, type=int)
             questions = get_questions_by_page(page)
-
-            if len(questions) == 0:
-                abort(STATUS_NOT_FOUND)
-
-            return jsonify({
-                'success': True,
-                'current_category': None,
-                'categories': get_all_categories(),
-                'questions': questions,
-                'total_questions': len(get_all_questions())
-            })
-
         except Exception:
             abort(STATUS_UNPROCESSABLE_ENTITY)
+
+        if len(questions) == 0:
+            abort(STATUS_NOT_FOUND)
+
+        return jsonify({
+            'success': True,
+            'current_category': None,
+            'categories': get_all_categories(),
+            'questions': questions,
+            'total_questions': len(get_all_questions())
+        })
 
     @app.route('/questions/<int:question_id>', methods=['DELETE'])
     def delete_question(question_id):
