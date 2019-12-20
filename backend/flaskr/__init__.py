@@ -1,5 +1,7 @@
 """Module for app."""
 
+import random
+
 from flask import Flask, abort, jsonify, request
 
 from flask_cors import CORS
@@ -159,17 +161,35 @@ def create_app(test_config=None):
         except Exception:
             abort(STATUS_UNPROCESSABLE_ENTITY)
 
-    '''
-    @TODO:
-    Create a POST endpoint to get questions to play the quiz.
-    This endpoint should take category and previous question parameters
-    and return a random questions within the given category,
-    if provided, and that is not one of the previous questions.
-    
-    TEST: In the "Play" tab, after a user selects "All" or a category,
-    one question at a time is displayed, the user is allowed to answer
-    and shown whether they were correct or not.
-    '''
+    @app.route('/quizzes', methods=['POST'])
+    def play_quiz():
+        """
+        Play quiz route to get questions for quizzes.
+
+        :return:
+        """
+        try:
+            request_data = request.get_json()
+            previous_questions = request_data.get('previous_questions', [])
+            quiz_category = request_data.get('quiz_category')
+
+            if not quiz_category:
+                abort(STATUS_BAD_REQUEST)
+
+            category_id = quiz_category.get('id', 0)
+            questions = get_all_questions() if category_id == 0 else get_all_questions(category_id=category_id)
+
+            filtered_questions = list(filter(lambda question: question.get('id') not in previous_questions, questions))
+
+            random_question = random.choice(filtered_questions) if filtered_questions else None
+
+            return jsonify({
+                'question': random_question,
+                'success': True
+            })
+
+        except Exception:
+            abort(STATUS_UNPROCESSABLE_ENTITY)
 
     @app.errorhandler(STATUS_BAD_REQUEST)
     def bad_request(error):
