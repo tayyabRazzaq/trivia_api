@@ -5,15 +5,23 @@ from flask_sqlalchemy import SQLAlchemy
 from sqlalchemy import Column, Integer, String
 
 database_name = "trivia"
-database_path = "postgresql://{user}:{password}@{server}/{database}".format(user="postgres",
-                                                                            password="postgres",
-                                                                            server="localhost:5432",
-                                                                            database=database_name)
 
 db = SQLAlchemy()
 
 
-def setup_db(app, database_uri=database_path):
+def get_database_path(db_name=database_name):
+    """
+    Get database path by given database_name.
+
+    :param db_name:
+    :return:
+    """
+    return "postgresql://{user}:{password}@{server}/{database}".format(
+        user="postgres", password="postgres", server="localhost:5432", database=db_name
+    )
+
+
+def setup_db(app, database_uri=get_database_path()):
     """
     Bind a flask application and a SQLAlchemy service.
 
