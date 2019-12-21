@@ -244,6 +244,18 @@ class TriviaTestCase(unittest.TestCase):
         self.assertEqual(json_data.get('success'), False)
         self.assertEqual(json_data.get('message'), ERROR_MESSAGES[STATUS_METHOD_NOT_ALLOWED])
 
+    def test_play_quiz_failed_bad_request(self):
+        """
+        Fail case for play quiz api with method bad request.
+
+        :return:
+        """
+        response = self.client.post('/quizzes', json={})
+        json_data = response.get_json()
+        self.assertEqual(response.status_code, STATUS_BAD_REQUEST)
+        self.assertEqual(json_data.get('success'), False)
+        self.assertEqual(json_data.get('message'), ERROR_MESSAGES[STATUS_BAD_REQUEST])
+
     def tearDown(self):
         """
         Execute after reach test.
