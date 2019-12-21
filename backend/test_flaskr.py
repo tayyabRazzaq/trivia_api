@@ -23,10 +23,17 @@ class TriviaTestCase(unittest.TestCase):
         :return:
         """
         self.app = create_app()
-        self.client = self.app.test_client()
+        self.client = self.app.test_client
         self.database_name = "trivia_test"
         self.database_path = get_database_path(self.database_name)
         setup_db(self.app, self.database_path)
+
+        self.question = {
+            "question": "Test 1",
+            "answer": "Answer 1",
+            "category": 1,
+            "difficulty": 1
+        }
 
         # binds the app to the current context
         with self.app.app_context():
@@ -41,10 +48,11 @@ class TriviaTestCase(unittest.TestCase):
 
         :return:
         """
-        response = self.client.get('/categories')
+        response = self.client().get('/categories')
         json_data = response.get_json()
         self.assertEqual(response.status_code, STATUS_OK)
         self.assertEqual(json_data.get('success'), True)
+        self.assertTrue(len(json_data.get('categories')))
 
     def test_get_categories_failed(self):
         """
@@ -52,7 +60,7 @@ class TriviaTestCase(unittest.TestCase):
 
         :return:
         """
-        response = self.client.post('/categories')
+        response = self.client().post('/categories')
         json_data = response.get_json()
         self.assertEqual(response.status_code, STATUS_METHOD_NOT_ALLOWED)
         self.assertEqual(json_data.get('success'), False)
@@ -64,10 +72,13 @@ class TriviaTestCase(unittest.TestCase):
 
         :return:
         """
-        response = self.client.get('/questions')
+        response = self.client().get('/questions')
         json_data = response.get_json()
         self.assertEqual(response.status_code, STATUS_OK)
         self.assertEqual(json_data.get('success'), True)
+        self.assertTrue(len(json_data.get('categories')))
+        self.assertTrue(len(json_data.get('questions')))
+        self.assertTrue(json_data.get('total_questions'))
 
     def test_get_questions_failed(self):
         """
@@ -75,7 +86,7 @@ class TriviaTestCase(unittest.TestCase):
 
         :return:
         """
-        response = self.client.get('/questions?page=-1000')
+        response = self.client().get('/questions?page=-1000')
         json_data = response.get_json()
         self.assertEqual(response.status_code, STATUS_NOT_FOUND)
         self.assertEqual(json_data.get('success'), False)
@@ -87,7 +98,9 @@ class TriviaTestCase(unittest.TestCase):
 
         :return:
         """
-        response = self.client.delete('/questions/15')
+        response = self.client().post('/questions', json=self.question)
+        json_data = response.get_json()
+        response = self.client().delete(f'/questions/{json_data.get("id")}')
         self.assertEqual(response.status_code, STATUS_NO_CONTENT)
 
     def test_delete_question_failed_method_not_allowed(self):
@@ -96,7 +109,7 @@ class TriviaTestCase(unittest.TestCase):
 
         :return:
         """
-        response = self.client.get('/questions/10')
+        response = self.client().get('/questions/14')
         json_data = response.get_json()
         self.assertEqual(response.status_code, STATUS_METHOD_NOT_ALLOWED)
         self.assertEqual(json_data.get('success'), False)
@@ -108,7 +121,7 @@ class TriviaTestCase(unittest.TestCase):
 
         :return:
         """
-        response = self.client.delete('/questions/-1000')
+        response = self.client().delete('/questions/-1000')
         json_data = response.get_json()
         self.assertEqual(response.status_code, STATUS_NOT_FOUND)
         self.assertEqual(json_data.get('success'), False)
@@ -120,16 +133,11 @@ class TriviaTestCase(unittest.TestCase):
 
         :return:
         """
-        question = {
-            "question": "Test 1",
-            "answer": "Answer 1",
-            "category": 1,
-            "difficulty": 1
-        }
-        response = self.client.post('/questions', json=question)
+        response = self.client().post('/questions', json=self.question)
         json_data = response.get_json()
         self.assertEqual(response.status_code, STATUS_CREATED)
         self.assertEqual(json_data.get('success'), True)
+        self.assertTrue(json_data.get('id'))
 
     def test_add_question_failed_method_not_allowed(self):
         """
@@ -137,7 +145,7 @@ class TriviaTestCase(unittest.TestCase):
 
         :return:
         """
-        response = self.client.put('/questions', json={})
+        response = self.client().put('/questions', json={})
         json_data = response.get_json()
         self.assertEqual(response.status_code, STATUS_METHOD_NOT_ALLOWED)
         self.assertEqual(json_data.get('success'), False)
@@ -149,7 +157,7 @@ class TriviaTestCase(unittest.TestCase):
 
         :return:
         """
-        response = self.client.post('/questions', json={})
+        response = self.client().post('/questions', json={})
         json_data = response.get_json()
         self.assertEqual(response.status_code, STATUS_BAD_REQUEST)
         self.assertEqual(json_data.get('success'), False)
@@ -164,10 +172,12 @@ class TriviaTestCase(unittest.TestCase):
         data = {
             "searchTerm": "The"
         }
-        response = self.client.post('/questions/filter', json=data)
+        response = self.client().post('/questions/filter', json=data)
         json_data = response.get_json()
         self.assertEqual(response.status_code, STATUS_OK)
         self.assertEqual(json_data.get('success'), True)
+        self.assertTrue(len(json_data.get('questions')))
+        self.assertTrue(json_data.get('total_questions'))
 
     def test_search_questions_failed(self):
         """
@@ -175,7 +185,7 @@ class TriviaTestCase(unittest.TestCase):
 
         :return:
         """
-        response = self.client.get('/questions/filter', json={})
+        response = self.client().get('/questions/filter', json={})
         json_data = response.get_json()
         self.assertEqual(response.status_code, STATUS_METHOD_NOT_ALLOWED)
         self.assertEqual(json_data.get('success'), False)
@@ -187,10 +197,13 @@ class TriviaTestCase(unittest.TestCase):
 
         :return:
         """
-        response = self.client.get('/categories/1/questions')
+        response = self.client().get('/categories/1/questions')
         json_data = response.get_json()
         self.assertEqual(response.status_code, STATUS_OK)
         self.assertEqual(json_data.get('success'), True)
+        self.assertTrue(len(json_data.get('questions')))
+        self.assertTrue(json_data.get('total_questions'))
+        self.assertTrue(len(json_data.get('current_category')))
 
     def test_get_questions_by_category_failed_method_not_allowed(self):
         """
@@ -198,7 +211,7 @@ class TriviaTestCase(unittest.TestCase):
 
         :return:
         """
-        response = self.client.post('/categories/1/questions')
+        response = self.client().post('/categories/1/questions')
         json_data = response.get_json()
         self.assertEqual(response.status_code, STATUS_METHOD_NOT_ALLOWED)
         self.assertEqual(json_data.get('success'), False)
@@ -210,7 +223,7 @@ class TriviaTestCase(unittest.TestCase):
 
         :return:
         """
-        response = self.client.get('/categories/1000/questions')
+        response = self.client().get('/categories/1000/questions')
         json_data = response.get_json()
         self.assertEqual(response.status_code, STATUS_NOT_FOUND)
         self.assertEqual(json_data.get('success'), False)
@@ -228,10 +241,11 @@ class TriviaTestCase(unittest.TestCase):
             },
             "previous_questions": []
         }
-        response = self.client.post('/quizzes', json=data)
+        response = self.client().post('/quizzes', json=data)
         json_data = response.get_json()
         self.assertEqual(response.status_code, STATUS_OK)
         self.assertEqual(json_data.get('success'), True)
+        self.assertTrue(len(json_data.get('question')))
 
     def test_play_quiz_failed_method_not_allowed(self):
         """
@@ -239,7 +253,7 @@ class TriviaTestCase(unittest.TestCase):
 
         :return:
         """
-        response = self.client.get('/quizzes', json={})
+        response = self.client().get('/quizzes', json={})
         json_data = response.get_json()
         self.assertEqual(response.status_code, STATUS_METHOD_NOT_ALLOWED)
         self.assertEqual(json_data.get('success'), False)
@@ -251,7 +265,7 @@ class TriviaTestCase(unittest.TestCase):
 
         :return:
         """
-        response = self.client.post('/quizzes', json={})
+        response = self.client().post('/quizzes', json={})
         json_data = response.get_json()
         self.assertEqual(response.status_code, STATUS_BAD_REQUEST)
         self.assertEqual(json_data.get('success'), False)
@@ -264,11 +278,6 @@ class TriviaTestCase(unittest.TestCase):
         :return:
         """
         pass
-
-    """
-    TODO
-    Write at least one test for each test for successful operation and for expected errors.
-    """
 
 
 # Make the tests conveniently executable
