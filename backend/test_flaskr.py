@@ -45,6 +45,7 @@ class TriviaTestCase(unittest.TestCase):
         json_data = response.get_json()
         self.assertEqual(response.status_code, STATUS_OK)
         self.assertEqual(json_data.get('success'), True)
+        self.assertTrue(len(json_data.get('categories')))
 
     def test_get_categories_failed(self):
         """
@@ -68,6 +69,9 @@ class TriviaTestCase(unittest.TestCase):
         json_data = response.get_json()
         self.assertEqual(response.status_code, STATUS_OK)
         self.assertEqual(json_data.get('success'), True)
+        self.assertTrue(len(json_data.get('categories')))
+        self.assertTrue(len(json_data.get('questions')))
+        self.assertTrue(json_data.get('total_questions'))
 
     def test_get_questions_failed(self):
         """
@@ -168,6 +172,8 @@ class TriviaTestCase(unittest.TestCase):
         json_data = response.get_json()
         self.assertEqual(response.status_code, STATUS_OK)
         self.assertEqual(json_data.get('success'), True)
+        self.assertTrue(len(json_data.get('questions')))
+        self.assertTrue(json_data.get('total_questions'))
 
     def test_search_questions_failed(self):
         """
@@ -191,6 +197,9 @@ class TriviaTestCase(unittest.TestCase):
         json_data = response.get_json()
         self.assertEqual(response.status_code, STATUS_OK)
         self.assertEqual(json_data.get('success'), True)
+        self.assertTrue(len(json_data.get('questions')))
+        self.assertTrue(json_data.get('total_questions'))
+        self.assertTrue(len(json_data.get('current_category')))
 
     def test_get_questions_by_category_failed_method_not_allowed(self):
         """
@@ -232,6 +241,7 @@ class TriviaTestCase(unittest.TestCase):
         json_data = response.get_json()
         self.assertEqual(response.status_code, STATUS_OK)
         self.assertEqual(json_data.get('success'), True)
+        self.assertTrue(len(json_data.get('question')))
 
     def test_play_quiz_failed_method_not_allowed(self):
         """
