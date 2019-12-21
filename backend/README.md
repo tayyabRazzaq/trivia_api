@@ -545,6 +545,16 @@ Unprocessable Entity `422`
 }
 ```
 
+Internal Server Error `500`
+
+```json5
+{
+  'success': false,
+  'error': 500,
+  'message': 'Internal Server Error'
+}
+```
+
 ## Testing
 To run the tests, run
 ```
