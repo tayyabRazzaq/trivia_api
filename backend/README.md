@@ -482,6 +482,19 @@ Response
 }
 ```
 
+Errors
+--------------------------------------------------------
+
+Bad Request `400`
+
+```json5
+{
+  'success': false,
+  'error': 400,
+  'message': 'Bad Request'
+}
+```
+
 ## Testing
 To run the tests, run
 ```
