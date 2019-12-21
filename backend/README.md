@@ -339,6 +339,118 @@ Response
 }
 ```
 
+POST `'/categories/<int:category_id>/questions'`
+
+- To get questions based on category
+- Request Arguments: category_id (Category Id).
+- Returns: List of questions, total number of questions and current category.
+
+for category 1 response is below
+
+```json5
+{
+	"current_category": {
+		"id": 1,
+		"type": "Science"
+	},
+	"questions": [
+		{
+			"answer": "The Liver",
+			"category": 1,
+			"difficulty": 4,
+			"id": 20,
+			"question": "What is the heaviest organ in the human body?"
+		},
+		{
+			"answer": "Alexander Fleming",
+			"category": 1,
+			"difficulty": 3,
+			"id": 21,
+			"question": "Who discovered penicillin?"
+		},
+		{
+			"answer": "Blood",
+			"category": 1,
+			"difficulty": 4,
+			"id": 22,
+			"question": "Hematology is a branch of medicine involving the study of what?"
+		},
+		{
+			"answer": "Answer 1",
+			"category": 1,
+			"difficulty": 1,
+			"id": 24,
+			"question": "Test 1"
+		},
+		{
+			"answer": "Answer 1",
+			"category": 1,
+			"difficulty": 1,
+			"id": 25,
+			"question": "Test 1"
+		},
+		{
+			"answer": "Answer 1",
+			"category": 1,
+			"difficulty": 1,
+			"id": 26,
+			"question": "Test 1"
+		},
+		{
+			"answer": "Answer 1",
+			"category": 1,
+			"difficulty": 1,
+			"id": 27,
+			"question": "Test 1"
+		},
+		{
+			"answer": "Answer 1",
+			"category": 1,
+			"difficulty": 1,
+			"id": 28,
+			"question": "Test 1"
+		},
+		{
+			"answer": "Answer 1",
+			"category": 1,
+			"difficulty": 1,
+			"id": 29,
+			"question": "Test 1"
+		},
+		{
+			"answer": "Answer 1",
+			"category": 1,
+			"difficulty": 1,
+			"id": 31,
+			"question": "Test 1"
+		},
+		{
+			"answer": "Answer 1",
+			"category": 1,
+			"difficulty": 1,
+			"id": 33,
+			"question": "Test 1"
+		},
+		{
+			"answer": "Answer 1",
+			"category": 1,
+			"difficulty": 1,
+			"id": 35,
+			"question": "Test 1"
+		},
+		{
+			"answer": "Answer 1",
+			"category": 1,
+			"difficulty": 1,
+			"id": 37,
+			"question": "Test 1"
+		}
+	],
+	"total_questions": 13,
+	"success": true
+}
+```
+
 ## Testing
 To run the tests, run
 ```
