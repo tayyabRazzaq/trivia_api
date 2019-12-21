@@ -6,8 +6,8 @@ from flask_sqlalchemy import SQLAlchemy
 
 from flaskr import create_app
 from flaskr.constants import (
-    ERROR_MESSAGES, STATUS_BAD_REQUEST, STATUS_CREATED, STATUS_METHOD_NOT_ALLOWED,
-    STATUS_NOT_FOUND, STATUS_NO_CONTENT, STATUS_OK,
+    ERROR_MESSAGES, STATUS_BAD_REQUEST, STATUS_CREATED,
+    STATUS_METHOD_NOT_ALLOWED, STATUS_NOT_FOUND, STATUS_NO_CONTENT, STATUS_OK,
 )
 
 from models import get_database_path, setup_db
@@ -64,7 +64,9 @@ class TriviaTestCase(unittest.TestCase):
         json_data = response.get_json()
         self.assertEqual(response.status_code, STATUS_METHOD_NOT_ALLOWED)
         self.assertEqual(json_data.get('success'), False)
-        self.assertEqual(json_data.get('message'), ERROR_MESSAGES[STATUS_METHOD_NOT_ALLOWED])
+        self.assertEqual(
+            json_data.get('message'), ERROR_MESSAGES[STATUS_METHOD_NOT_ALLOWED]
+        )
 
     def test_get_questions_success(self):
         """
@@ -90,7 +92,9 @@ class TriviaTestCase(unittest.TestCase):
         json_data = response.get_json()
         self.assertEqual(response.status_code, STATUS_NOT_FOUND)
         self.assertEqual(json_data.get('success'), False)
-        self.assertEqual(json_data.get('message'), ERROR_MESSAGES[STATUS_NOT_FOUND])
+        self.assertEqual(
+            json_data.get('message'), ERROR_MESSAGES[STATUS_NOT_FOUND]
+        )
 
     def test_delete_question_success(self):
         """
@@ -113,7 +117,9 @@ class TriviaTestCase(unittest.TestCase):
         json_data = response.get_json()
         self.assertEqual(response.status_code, STATUS_METHOD_NOT_ALLOWED)
         self.assertEqual(json_data.get('success'), False)
-        self.assertEqual(json_data.get('message'), ERROR_MESSAGES[STATUS_METHOD_NOT_ALLOWED])
+        self.assertEqual(
+            json_data.get('message'), ERROR_MESSAGES[STATUS_METHOD_NOT_ALLOWED]
+        )
 
     def test_delete_question_failed_not_found(self):
         """
@@ -125,7 +131,9 @@ class TriviaTestCase(unittest.TestCase):
         json_data = response.get_json()
         self.assertEqual(response.status_code, STATUS_NOT_FOUND)
         self.assertEqual(json_data.get('success'), False)
-        self.assertEqual(json_data.get('message'), ERROR_MESSAGES[STATUS_NOT_FOUND])
+        self.assertEqual(
+            json_data.get('message'), ERROR_MESSAGES[STATUS_NOT_FOUND]
+        )
 
     def test_add_question_success(self):
         """
@@ -149,7 +157,9 @@ class TriviaTestCase(unittest.TestCase):
         json_data = response.get_json()
         self.assertEqual(response.status_code, STATUS_METHOD_NOT_ALLOWED)
         self.assertEqual(json_data.get('success'), False)
-        self.assertEqual(json_data.get('message'), ERROR_MESSAGES[STATUS_METHOD_NOT_ALLOWED])
+        self.assertEqual(
+            json_data.get('message'), ERROR_MESSAGES[STATUS_METHOD_NOT_ALLOWED]
+        )
 
     def test_add_question_failed_bad_request(self):
         """
@@ -161,7 +171,9 @@ class TriviaTestCase(unittest.TestCase):
         json_data = response.get_json()
         self.assertEqual(response.status_code, STATUS_BAD_REQUEST)
         self.assertEqual(json_data.get('success'), False)
-        self.assertEqual(json_data.get('message'), ERROR_MESSAGES[STATUS_BAD_REQUEST])
+        self.assertEqual(
+            json_data.get('message'), ERROR_MESSAGES[STATUS_BAD_REQUEST]
+        )
 
     def test_search_questions_success(self):
         """
@@ -189,7 +201,9 @@ class TriviaTestCase(unittest.TestCase):
         json_data = response.get_json()
         self.assertEqual(response.status_code, STATUS_METHOD_NOT_ALLOWED)
         self.assertEqual(json_data.get('success'), False)
-        self.assertEqual(json_data.get('message'), ERROR_MESSAGES[STATUS_METHOD_NOT_ALLOWED])
+        self.assertEqual(
+            json_data.get('message'), ERROR_MESSAGES[STATUS_METHOD_NOT_ALLOWED]
+        )
 
     def test_get_questions_by_category_success(self):
         """
@@ -215,7 +229,9 @@ class TriviaTestCase(unittest.TestCase):
         json_data = response.get_json()
         self.assertEqual(response.status_code, STATUS_METHOD_NOT_ALLOWED)
         self.assertEqual(json_data.get('success'), False)
-        self.assertEqual(json_data.get('message'), ERROR_MESSAGES[STATUS_METHOD_NOT_ALLOWED])
+        self.assertEqual(
+            json_data.get('message'), ERROR_MESSAGES[STATUS_METHOD_NOT_ALLOWED]
+        )
 
     def test_get_questions_by_category_not_found(self):
         """
@@ -227,7 +243,9 @@ class TriviaTestCase(unittest.TestCase):
         json_data = response.get_json()
         self.assertEqual(response.status_code, STATUS_NOT_FOUND)
         self.assertEqual(json_data.get('success'), False)
-        self.assertEqual(json_data.get('message'), ERROR_MESSAGES[STATUS_NOT_FOUND])
+        self.assertEqual(
+            json_data.get('message'), ERROR_MESSAGES[STATUS_NOT_FOUND]
+        )
 
     def test_play_quiz_success(self):
         """
@@ -257,7 +275,9 @@ class TriviaTestCase(unittest.TestCase):
         json_data = response.get_json()
         self.assertEqual(response.status_code, STATUS_METHOD_NOT_ALLOWED)
         self.assertEqual(json_data.get('success'), False)
-        self.assertEqual(json_data.get('message'), ERROR_MESSAGES[STATUS_METHOD_NOT_ALLOWED])
+        self.assertEqual(
+            json_data.get('message'), ERROR_MESSAGES[STATUS_METHOD_NOT_ALLOWED]
+        )
 
     def test_play_quiz_failed_bad_request(self):
         """
@@ -269,7 +289,9 @@ class TriviaTestCase(unittest.TestCase):
         json_data = response.get_json()
         self.assertEqual(response.status_code, STATUS_BAD_REQUEST)
         self.assertEqual(json_data.get('success'), False)
-        self.assertEqual(json_data.get('message'), ERROR_MESSAGES[STATUS_BAD_REQUEST])
+        self.assertEqual(
+            json_data.get('message'), ERROR_MESSAGES[STATUS_BAD_REQUEST]
+        )
 
     def tearDown(self):
         """
