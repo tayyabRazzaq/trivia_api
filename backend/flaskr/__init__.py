@@ -7,8 +7,9 @@ from flask import Flask, abort, jsonify, request
 from flask_cors import CORS
 
 from flaskr.constants import (
-    ERROR_MESSAGES, STATUS_BAD_REQUEST, STATUS_CREATED, STATUS_FORBIDDEN, STATUS_INTERNAL_SERVER_ERROR,
-    STATUS_METHOD_NOT_ALLOWED, STATUS_NOT_FOUND, STATUS_NO_CONTENT, STATUS_UNAUTHORIZED, STATUS_UNPROCESSABLE_ENTITY
+    ERROR_MESSAGES, STATUS_BAD_REQUEST, STATUS_CREATED, STATUS_FORBIDDEN,
+    STATUS_INTERNAL_SERVER_ERROR, STATUS_METHOD_NOT_ALLOWED, STATUS_NOT_FOUND,
+    STATUS_NO_CONTENT, STATUS_UNAUTHORIZED, STATUS_UNPROCESSABLE_ENTITY
 )
 from flaskr.utils import (
     add_new_question, get_all_categories, get_all_questions,
@@ -32,8 +33,14 @@ def create_app(test_config=None):
 
     @app.after_request
     def after_request(response):
-        response.headers.add('Access-Control-Allow-Headers', 'Content-Type, Authorization')
-        response.headers.add('Access-Control-Allow-Methods', 'GET, POST, PUT, PATCH, DELETE, OPTIONS')
+        response.headers.add(
+            'Access-Control-Allow-Headers',
+            'Content-Type, Authorization'
+        )
+        response.headers.add(
+            'Access-Control-Allow-Methods',
+            'GET, POST, PUT, PATCH, DELETE, OPTIONS'
+        )
         return response
 
     @app.route('/categories')
@@ -130,7 +137,9 @@ def create_app(test_config=None):
         """
         try:
             request_data = request.get_json()
-            questions = get_all_questions(query=request_data.get('searchTerm'))
+            questions = get_all_questions(
+                query=request_data.get('searchTerm')
+            )
             return jsonify({
                 'success': True,
                 'questions': questions,
@@ -181,11 +190,20 @@ def create_app(test_config=None):
                 abort(STATUS_BAD_REQUEST)
 
             category_id = quiz_category.get('id', 0)
-            questions = get_all_questions() if category_id == 0 else get_all_questions(category_id=category_id)
+            if category_id == 0:
+                questions = get_all_questions()
+            else:
+                questions = get_all_questions(category_id=category_id)
 
-            filtered_questions = list(filter(lambda question: question.get('id') not in previous_questions, questions))
+            filtered_questions = list(
+                filter(
+                    lambda question:
+                    question.get('id') not in previous_questions, questions
+                )
+            )
 
-            random_question = random.choice(filtered_questions) if filtered_questions else None
+            random_question = random.choice(filtered_questions) \
+                if filtered_questions else None
 
             return jsonify({
                 'question': random_question,
