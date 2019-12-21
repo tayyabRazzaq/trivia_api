@@ -50,7 +50,9 @@ def get_all_questions(query=None, category_id=None):
     :return:
     """
     if query:
-        questions = Question.query.filter(Question.question.ilike(f'%{query}%'))
+        questions = Question.query.filter(
+            Question.question.ilike(f'%{query}%')
+        )
     elif category_id:
         questions = Question.query.filter_by(category=category_id)
     else:
