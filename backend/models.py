@@ -20,7 +20,8 @@ def get_database_path(db_name=database_name, is_postgres_user=True):
     if is_postgres_user:
         return "postgres://{}/{}".format('localhost:5432', db_name)
 
-    return "postgres://{}:{}@{}/{}".format('postgres', 'postgres', 'localhost:5432', db_name)
+    return "postgres://{}:{}@{}/{}".format(
+        'postgres', 'postgres', 'localhost:5432', db_name)
 
 
 def setup_db(app, database_uri=get_database_path()):
