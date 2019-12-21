@@ -482,6 +482,79 @@ Response
 }
 ```
 
+Errors
+--------------------------------------------------------
+
+Bad Request `400`
+
+```json5
+{
+  'success': false,
+  'error': 400,
+  'message': 'Bad Request'
+}
+```
+
+Unauthorized `401`
+
+```json5
+{
+  'success': false,
+  'error': 401,
+  'message': 'Unauthorized'
+}
+```
+
+Forbidden `403`
+
+```json5
+{
+  'success': false,
+  'error': 403,
+  'message': 'Forbidden'
+}
+```
+
+Not Found `404`
+
+```json5
+{
+  'success': false,
+  'error': 404,
+  'message': 'Not Found'
+}
+```
+
+Method Not Allowed `405`
+
+```json5
+{
+  'success': false,
+  'error': 405,
+  'message': 'Method Not Allowed'
+}
+```
+
+Unprocessable Entity `422`
+
+```json5
+{
+  'success': false,
+  'error': 422,
+  'message': 'Unprocessable Entity'
+}
+```
+
+Internal Server Error `500`
+
+```json5
+{
+  'success': false,
+  'error': 500,
+  'message': 'Internal Server Error'
+}
+```
+
 ## Testing
 To run the tests, run
 ```
