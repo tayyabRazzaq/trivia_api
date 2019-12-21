@@ -89,6 +89,398 @@ GET '/categories'
 
 ```
 
+API Endpoints Documentation
+--------------------------------------------------------
+GET `'/categories'`
+
+- Fetches a dictionary of categories in which the keys are the ids and the value is the corresponding string of the category
+- Request Arguments: None
+- Returns: An object with a single key, categories, that contains a object of id: category_string key:value pairs.
+
+```json5
+{
+    "categories": {
+        "1": "Science",
+        "2": "Art",
+        "3": "Geography",
+        "4": "History",
+        "5": "Entertainment",
+        "6": "Sports"
+    },
+    "success": true
+}
+```
+
+GET `'/questions'`
+
+- Fetches a dictionary of categories in which the keys are the ids and the value is the corresponding string of the category
+- Fetches a list of questions in which each entry is question dictionary with the keys are answer, category, difficulty, id and question.
+- Request Arguments: Page Number
+- Returns: Dictionary of Categories, Current Category, List of questions and total number of questions.
+
+```json5
+{
+	"categories": {
+		"1": "Science",
+		"2": "Art",
+		"3": "Geography",
+		"4": "History",
+		"5": "Entertainment",
+		"6": "Sports"
+	},
+	"current_category": null,
+	"questions": [
+		{
+			"answer": "Apollo 13",
+			"category": 5,
+			"difficulty": 4,
+			"id": 2,
+			"question": "What movie earned Tom Hanks his third straight Oscar nomination, in 1996?"
+		},
+		{
+			"answer": "Tom Cruise",
+			"category": 5,
+			"difficulty": 4,
+			"id": 4,
+			"question": "What actor did author Anne Rice first denounce, then praise in the role of her beloved Lestat?"
+		},
+		{
+			"answer": "Maya Angelou",
+			"category": 4,
+			"difficulty": 2,
+			"id": 5,
+			"question": "Whose autobiography is entitled 'I Know Why the Caged Bird Sings'?"
+		},
+		{
+			"answer": "Edward Scissorhands",
+			"category": 5,
+			"difficulty": 3,
+			"id": 6,
+			"question": "What was the title of the 1990 fantasy directed by Tim Burton about a young man with multi-bladed appendages?"
+		},
+		{
+			"answer": "Muhammad Ali",
+			"category": 4,
+			"difficulty": 1,
+			"id": 9,
+			"question": "What boxer's original name is Cassius Clay?"
+		},
+		{
+			"answer": "Brazil",
+			"category": 6,
+			"difficulty": 3,
+			"id": 10,
+			"question": "Which is the only team to play in every soccer World Cup tournament?"
+		},
+		{
+			"answer": "Uruguay",
+			"category": 6,
+			"difficulty": 4,
+			"id": 11,
+			"question": "Which country won the first ever soccer World Cup in 1930?"
+		},
+		{
+			"answer": "George Washington Carver",
+			"category": 4,
+			"difficulty": 2,
+			"id": 12,
+			"question": "Who invented Peanut Butter?"
+		},
+		{
+			"answer": "Lake Victoria",
+			"category": 3,
+			"difficulty": 2,
+			"id": 13,
+			"question": "What is the largest lake in Africa?"
+		},
+		{
+			"answer": "The Palace of Versailles",
+			"category": 3,
+			"difficulty": 3,
+			"id": 14,
+			"question": "In which royal palace would you find the Hall of Mirrors?"
+		}
+	],
+	"total_questions": 26,
+	"success": true
+}
+```
+
+DELETE `'/questions/<int:question_id>'`
+
+- Delete question from the questions in database.
+- Request Arguments: questions_id(Question Id)
+- Returns: true with status 204 if successfully deleted.
+
+```json5
+{
+    "success": true
+}
+```
+
+POST `'/questions'`
+
+- Create a new question
+- Request Body: question, answer, difficulty and category.
+- Returns: true and question id with status 201 if successfully created.
+
+Request
+
+```json5
+{
+    "question": "Test 1",
+    "answer": "Answer 1",
+    "category": 1,
+    "difficulty": 1
+}
+```
+
+Response
+
+```json5
+{
+    "success": true,
+    "id": 15
+}
+```
+
+POST `'/questions/filter'`
+
+- Searches for the questions
+- Request Body: search term to search question on that.
+- Returns: List of questions and total number of questions.
+
+Request
+
+```json5
+{
+    "searchTerm": "The"
+}
+```
+
+Response
+
+```json5
+{
+	"questions": [
+		{
+			"answer": "Maya Angelou",
+			"category": 4,
+			"difficulty": 2,
+			"id": 5,
+			"question": "Whose autobiography is entitled 'I Know Why the Caged Bird Sings'?"
+		},
+		{
+			"answer": "Tom Cruise",
+			"category": 5,
+			"difficulty": 4,
+			"id": 4,
+			"question": "What actor did author Anne Rice first denounce, then praise in the role of her beloved Lestat?"
+		},
+		{
+			"answer": "Edward Scissorhands",
+			"category": 5,
+			"difficulty": 3,
+			"id": 6,
+			"question": "What was the title of the 1990 fantasy directed by Tim Burton about a young man with multi-bladed appendages?"
+		},
+		{
+			"answer": "Brazil",
+			"category": 6,
+			"difficulty": 3,
+			"id": 10,
+			"question": "Which is the only team to play in every soccer World Cup tournament?"
+		},
+		{
+			"answer": "Uruguay",
+			"category": 6,
+			"difficulty": 4,
+			"id": 11,
+			"question": "Which country won the first ever soccer World Cup in 1930?"
+		},
+		{
+			"answer": "Lake Victoria",
+			"category": 3,
+			"difficulty": 2,
+			"id": 13,
+			"question": "What is the largest lake in Africa?"
+		},
+		{
+			"answer": "The Palace of Versailles",
+			"category": 3,
+			"difficulty": 3,
+			"id": 14,
+			"question": "In which royal palace would you find the Hall of Mirrors?"
+		},
+		{
+			"answer": "The Liver",
+			"category": 1,
+			"difficulty": 4,
+			"id": 20,
+			"question": "What is the heaviest organ in the human body?"
+		},
+		{
+			"answer": "Blood",
+			"category": 1,
+			"difficulty": 4,
+			"id": 22,
+			"question": "Hematology is a branch of medicine involving the study of what?"
+		},
+		{
+			"answer": "Scarab",
+			"category": 4,
+			"difficulty": 4,
+			"id": 23,
+			"question": "Which dung beetle was worshipped by the ancient Egyptians?"
+		}
+	],
+	"total_questions": 10,
+	"success": true
+}
+```
+
+POST `'/categories/<int:category_id>/questions'`
+
+- To get questions based on category
+- Request Arguments: category_id (Category Id).
+- Returns: List of questions, total number of questions and current category.
+
+for category 1 response is below
+
+```json5
+{
+	"current_category": {
+		"id": 1,
+		"type": "Science"
+	},
+	"questions": [
+		{
+			"answer": "The Liver",
+			"category": 1,
+			"difficulty": 4,
+			"id": 20,
+			"question": "What is the heaviest organ in the human body?"
+		},
+		{
+			"answer": "Alexander Fleming",
+			"category": 1,
+			"difficulty": 3,
+			"id": 21,
+			"question": "Who discovered penicillin?"
+		},
+		{
+			"answer": "Blood",
+			"category": 1,
+			"difficulty": 4,
+			"id": 22,
+			"question": "Hematology is a branch of medicine involving the study of what?"
+		},
+		{
+			"answer": "Answer 1",
+			"category": 1,
+			"difficulty": 1,
+			"id": 24,
+			"question": "Test 1"
+		},
+		{
+			"answer": "Answer 1",
+			"category": 1,
+			"difficulty": 1,
+			"id": 25,
+			"question": "Test 1"
+		},
+		{
+			"answer": "Answer 1",
+			"category": 1,
+			"difficulty": 1,
+			"id": 26,
+			"question": "Test 1"
+		},
+		{
+			"answer": "Answer 1",
+			"category": 1,
+			"difficulty": 1,
+			"id": 27,
+			"question": "Test 1"
+		},
+		{
+			"answer": "Answer 1",
+			"category": 1,
+			"difficulty": 1,
+			"id": 28,
+			"question": "Test 1"
+		},
+		{
+			"answer": "Answer 1",
+			"category": 1,
+			"difficulty": 1,
+			"id": 29,
+			"question": "Test 1"
+		},
+		{
+			"answer": "Answer 1",
+			"category": 1,
+			"difficulty": 1,
+			"id": 31,
+			"question": "Test 1"
+		},
+		{
+			"answer": "Answer 1",
+			"category": 1,
+			"difficulty": 1,
+			"id": 33,
+			"question": "Test 1"
+		},
+		{
+			"answer": "Answer 1",
+			"category": 1,
+			"difficulty": 1,
+			"id": 35,
+			"question": "Test 1"
+		},
+		{
+			"answer": "Answer 1",
+			"category": 1,
+			"difficulty": 1,
+			"id": 37,
+			"question": "Test 1"
+		}
+	],
+	"total_questions": 13,
+	"success": true
+}
+```
+
+POST `'/quizzes'`
+
+- To get questions to play the quiz.
+- Returns: Random question within the given category.
+
+Request
+
+```json5
+{
+    "quiz_category": {
+        "id": 1
+    },
+    "previous_questions": []
+}
+```
+
+Response
+
+```json5
+{
+    "question": {
+        "answer": "Blood", 
+        "category": 1, 
+        "difficulty": 4, 
+        "id": 22, 
+        "question": "Hematology is a branch of medicine involving the study of what?"
+    },
+    "success": true
+}
+```
 
 ## Testing
 To run the tests, run
