@@ -505,6 +505,16 @@ Unauthorized `401`
 }
 ```
 
+Forbidden `403`
+
+```json5
+{
+  'success': false,
+  'error': 403,
+  'message': 'Forbidden'
+}
+```
+
 ## Testing
 To run the tests, run
 ```
