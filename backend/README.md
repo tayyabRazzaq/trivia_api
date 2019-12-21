@@ -535,6 +535,16 @@ Method Not Allowed `405`
 }
 ```
 
+Unprocessable Entity `422`
+
+```json5
+{
+  'success': false,
+  'error': 422,
+  'message': 'Unprocessable Entity'
+}
+```
+
 ## Testing
 To run the tests, run
 ```
