@@ -218,6 +218,32 @@ DELETE `'/questions/<int:question_id>'`
 }
 ```
 
+POST `'/questions'`
+
+- Create a new question
+- Request Body: question, answer, difficulty and category.
+- Returns: true and question id with status 201 if successfully created.
+
+Request
+
+```json5
+{
+    "question": "Test 1",
+    "answer": "Answer 1",
+    "category": 1,
+    "difficulty": 1
+}
+```
+
+Response
+
+```json5
+{
+    "success": true,
+    "id": 15
+}
+```
+
 ## Testing
 To run the tests, run
 ```
