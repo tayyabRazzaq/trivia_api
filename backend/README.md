@@ -451,6 +451,37 @@ for category 1 response is below
 }
 ```
 
+POST `'/quizzes'`
+
+- To get questions to play the quiz.
+- Returns: Random question within the given category.
+
+Request
+
+```json5
+{
+    "quiz_category": {
+        "id": 1
+    },
+    "previous_questions": []
+}
+```
+
+Response
+
+```json5
+{
+    "question": {
+        "answer": "Blood", 
+        "category": 1, 
+        "difficulty": 4, 
+        "id": 22, 
+        "question": "Hematology is a branch of medicine involving the study of what?"
+    },
+    "success": true
+}
+```
+
 ## Testing
 To run the tests, run
 ```
