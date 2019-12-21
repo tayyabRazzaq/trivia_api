@@ -495,6 +495,16 @@ Bad Request `400`
 }
 ```
 
+Unauthorized `401`
+
+```json5
+{
+  'success': false,
+  'error': 401,
+  'message': 'Unauthorized'
+}
+```
+
 ## Testing
 To run the tests, run
 ```
