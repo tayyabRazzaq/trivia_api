@@ -9,7 +9,7 @@ database_name = "trivia"
 db = SQLAlchemy()
 
 
-def get_database_path(db_name=database_name, is_postgres_user=True):
+def get_database_path(db_name=database_name, is_postgres_user=False):
     """
     Get database path by given database_name.
 

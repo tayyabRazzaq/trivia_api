@@ -206,6 +206,18 @@ GET `'/questions'`
 }
 ```
 
+DELETE `'/questions/<int:question_id>'`
+
+- Delete question from the questions in database.
+- Request Arguments: questions_id(Question Id)
+- Returns: true with status 204 if successfully deleted.
+
+```json5
+{
+    "success": true
+}
+```
+
 ## Testing
 To run the tests, run
 ```
