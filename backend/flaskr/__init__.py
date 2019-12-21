@@ -112,9 +112,10 @@ def create_app(test_config=None):
             if not question:
                 abort(STATUS_BAD_REQUEST)
 
-            add_new_question(question)
+            instance = add_new_question(question)
             return jsonify({
                 'success': True,
+                'id': instance.id
             }), STATUS_CREATED
 
         except Exception as exp:

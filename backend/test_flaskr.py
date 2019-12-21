@@ -28,6 +28,13 @@ class TriviaTestCase(unittest.TestCase):
         self.database_path = get_database_path(self.database_name)
         setup_db(self.app, self.database_path)
 
+        self.question = {
+            "question": "Test 1",
+            "answer": "Answer 1",
+            "category": 1,
+            "difficulty": 1
+        }
+
         # binds the app to the current context
         with self.app.app_context():
             self.db = SQLAlchemy()
@@ -91,7 +98,9 @@ class TriviaTestCase(unittest.TestCase):
 
         :return:
         """
-        response = self.client().delete('/questions/15')
+        response = self.client().post('/questions', json=self.question)
+        json_data = response.get_json()
+        response = self.client().delete(f'/questions/{json_data.get("id")}')
         self.assertEqual(response.status_code, STATUS_NO_CONTENT)
 
     def test_delete_question_failed_method_not_allowed(self):
@@ -124,16 +133,11 @@ class TriviaTestCase(unittest.TestCase):
 
         :return:
         """
-        question = {
-            "question": "Test 1",
-            "answer": "Answer 1",
-            "category": 1,
-            "difficulty": 1
-        }
-        response = self.client().post('/questions', json=question)
+        response = self.client().post('/questions', json=self.question)
         json_data = response.get_json()
         self.assertEqual(response.status_code, STATUS_CREATED)
         self.assertEqual(json_data.get('success'), True)
+        self.assertTrue(json_data.get('id'))
 
     def test_add_question_failed_method_not_allowed(self):
         """
