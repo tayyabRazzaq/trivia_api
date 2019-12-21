@@ -525,6 +525,16 @@ Not Found `404`
 }
 ```
 
+Method Not Allowed `405`
+
+```json5
+{
+  'success': false,
+  'error': 405,
+  'message': 'Method Not Allowed'
+}
+```
+
 ## Testing
 To run the tests, run
 ```
