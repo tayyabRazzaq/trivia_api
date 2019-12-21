@@ -515,6 +515,16 @@ Forbidden `403`
 }
 ```
 
+Not Found `404`
+
+```json5
+{
+  'success': false,
+  'error': 404,
+  'message': 'Not Found'
+}
+```
+
 ## Testing
 To run the tests, run
 ```
