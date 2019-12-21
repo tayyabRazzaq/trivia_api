@@ -6,8 +6,8 @@ from flask_sqlalchemy import SQLAlchemy
 
 from flaskr import create_app
 from flaskr.constants import (
-    ERROR_MESSAGES, STATUS_BAD_REQUEST, STATUS_CREATED, STATUS_FORBIDDEN, STATUS_METHOD_NOT_ALLOWED,
-    STATUS_NOT_FOUND, STATUS_NO_CONTENT, STATUS_OK, STATUS_UNAUTHORIZED, STATUS_UNPROCESSABLE_ENTITY
+    ERROR_MESSAGES, STATUS_BAD_REQUEST, STATUS_CREATED, STATUS_METHOD_NOT_ALLOWED,
+    STATUS_NOT_FOUND, STATUS_NO_CONTENT, STATUS_OK,
 )
 
 from models import get_database_path, setup_db
@@ -214,6 +214,23 @@ class TriviaTestCase(unittest.TestCase):
         self.assertEqual(response.status_code, STATUS_NOT_FOUND)
         self.assertEqual(json_data.get('success'), False)
         self.assertEqual(json_data.get('message'), ERROR_MESSAGES[STATUS_NOT_FOUND])
+
+    def test_play_quiz_success(self):
+        """
+        Success case for play quiz api.
+
+        :return:
+        """
+        data = {
+            "quiz_category": {
+                "id": 1
+            },
+            "previous_questions": []
+        }
+        response = self.client.post('/quizzes', json=data)
+        json_data = response.get_json()
+        self.assertEqual(response.status_code, STATUS_OK)
+        self.assertEqual(json_data.get('success'), True)
 
     def tearDown(self):
         """
